@@ -4,9 +4,7 @@ hide empty members
 top to bottom direction
 title Domain Model - Gym
 
-' =======================
-' CLASSES
-' =======================
+'classes'
 
 class Gym {
     name
@@ -79,19 +77,15 @@ class ClassEnrollment {
 
 class TeachingAssignment
 
-' =======================
-' INHERITANCE
-' =======================
-
 User <|-- Instructor
 User <|-- Athlete
 
 SubscriptionPlan <|-- BasicPlan
 SubscriptionPlan <|-- PremiumPlan
 
-' =======================
-' POSITIONING
-' =======================
+
+'organização'
+
 
 Gym -[hidden]down- OpeningHours
 OpeningHours -[hidden]down- Modality
@@ -109,11 +103,9 @@ Payment -[hidden]down- SubscriptionPlan
 ModalityEnrollment -[hidden]down- Modality
 TeachingAssignment -[hidden]down- Modality
 
-' =======================
-' RELATIONSHIPS
-' =======================
+'relações'
 
-' GYM
+'ginásio'
 Gym "1" -- "1" OpeningHours : defines
 Gym "1" -- "1..*" Room : contains
 Gym "1" -- "1..*" Instructor : contains
@@ -121,14 +113,14 @@ Gym "1" -- "0..*" Athlete : contains
 Gym "1" -- "1..*" Modality : offers
 Gym "1" -- "0..*" ClassSession : schedules
 
-' MODALITIES
+'modalidades'
 Instructor "1" -- "1..*" TeachingAssignment
 TeachingAssignment "1" -- "1" Modality
 
 Athlete "1" -- "0..*" ModalityEnrollment
 ModalityEnrollment "1" -- "1" Modality
 
-' CLASSES
+'aulas'
 Modality "1" -- "0..*" ClassSession : has
 Instructor "1" -- "0..*" ClassSession : teaches
 Room "1" -- "0..*" ClassSession : hosts
@@ -137,7 +129,7 @@ ClassSession "1" -- "1" Schedule : occurs at
 Athlete "1" -- "0..*" ClassEnrollment
 ClassEnrollment "1" -- "1" ClassSession
 
-' PAYMENTS
+'pagamentos'
 Athlete "1" -- "0..*" Payment : makes
 Athlete "1" -- "1" SubscriptionPlan : subscribes
 

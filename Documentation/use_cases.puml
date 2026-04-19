@@ -1,0 +1,49 @@
+@startuml
+left to right direction
+skinparam style strictuml
+title Gym Management System - Functional Requirements
+
+actor "Administrativo" as Func
+actor Instrutor
+actor Atleta
+
+rectangle "Gym System" {
+
+    usecase "UC1 - Registar Atleta" as UC1
+    usecase "UC2 - Registar Instrutor" as UC2
+    usecase "UC3 - Criar Modalidade" as UC3
+    usecase "UC4 - Criar Sala" as UC4
+    usecase "UC5 - Inscrever Atleta em Modalidade" as UC5
+    usecase "UC6 - Atualizar Nível Técnico" as UC6
+    usecase "UC7 - Agendar Aula" as UC7
+    usecase "UC8 - Consultar Alunos por Aula" as UC8
+    usecase "UC9 - Efetuar Pagamento de Mensalidade" as UC9
+    usecase "UC10 - Reservar Lugar em Aula" as UC10
+    usecase "UC11 - Cancelar Reserva de Aula" as UC11
+    usecase "UC12 - Consultar Horário de Aulas" as UC12
+    usecase "UC13 - Listar Atletas por Modalidade" as UC13
+
+    'administrativo'
+    Func --> UC1
+    Func --> UC2
+    Func --> UC3
+    Func --> UC4
+    Func --> UC5
+
+    'instrutor'
+    Instrutor --> UC6
+    Instrutor --> UC7
+    Instrutor --> UC8
+
+    'atleta'
+    Atleta --> UC9
+    Atleta --> UC10
+    Atleta --> UC11
+
+    UC12 <-- Instrutor
+    UC12 <-- Atleta
+    UC13 <-- Func
+    UC13 <-- Instrutor
+
+}
+@enduml

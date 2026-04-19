@@ -1,0 +1,43 @@
+@startuml
+left to right direction
+skinparam style strictuml
+title Functional Requirements - Gym Management System
+
+actor Instrutor
+actor Atleta
+
+rectangle "Gym System" {
+
+usecase "UC1 - Create Athlete" as UC1
+usecase "UC2 - Get Athlete" as UC2
+usecase "UC3 - Get All Athletes" as UC3
+usecase "UC4 - Create Instructor" as UC4
+usecase "UC5 - Create Modality" as UC5
+usecase "UC6 - Enroll Athlete in Modality" as UC6
+usecase "UC7 - Create ClassSession" as UC7
+usecase "UC8 - Schedule ClassSession" as UC8
+usecase "UC9 - Get All Classes" as UC9
+usecase "UC10 - Book ClassSession" as UC10
+usecase "UC11 - Cancel Booking" as UC11
+usecase "UC12 - Register Payment" as UC12
+usecase "UC13 - Check Payment Status" as UC13
+
+' Instrutor
+Instrutor --> UC2
+Instrutor --> UC3
+Instrutor --> UC4
+Instrutor --> UC5
+Instrutor --> UC6
+Instrutor --> UC7
+Instrutor --> UC8
+Instrutor --> UC9
+Instrutor --> UC13
+
+' Atleta
+Atleta --> UC9
+Atleta --> UC10
+Atleta --> UC11
+Atleta --> UC12
+Atleta --> UC13
+
+@enduml

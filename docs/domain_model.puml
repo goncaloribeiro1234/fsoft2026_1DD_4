@@ -1,0 +1,144 @@
+@startuml
+skinparam style strictuml
+hide empty members
+top to bottom direction
+title Domain Model - Gym
+
+' =======================
+' CLASSES
+' =======================
+
+class Gym {
+    name
+    location
+}
+
+class OpeningHours {
+    openingTime
+    closingTime
+}
+
+class User {
+    name
+    userId
+    email
+}
+
+class Instructor {
+    specialty
+}
+
+class Athlete {
+    technicalLevel
+    lastMedicalExamDate
+}
+
+class Modality {
+    name
+    description
+    minimumLevel
+}
+
+class ClassSession {
+    duration
+}
+
+class Room {
+    name
+    maximumCapacity
+}
+
+class Schedule {
+    date
+    startTime
+    endTime
+}
+
+class Payment {
+    date
+    amount
+    status
+}
+
+abstract class SubscriptionPlan {
+    type
+    weeklyClassLimit
+}
+
+class BasicPlan
+class PremiumPlan
+
+class ModalityEnrollment {
+    enrollmentDate
+}
+
+class ClassEnrollment {
+    enrollmentDate
+    status
+}
+
+class TeachingAssignment
+
+' =======================
+' INHERITANCE
+' =======================
+
+User <|-- Instructor
+User <|-- Athlete
+
+SubscriptionPlan <|-- BasicPlan
+SubscriptionPlan <|-- PremiumPlan
+
+' =======================
+' POSITIONING
+' =======================
+
+Gym -[hidden]down- OpeningHours
+OpeningHours -[hidden]down- Modality
+Modality -[hidden]down- ClassSession
+ClassSession -[hidden]down- Schedule
+
+Gym -[hidden]left- Room
+Room -[hidden]down- ClassEnrollment
+
+Gym -[hidden]right- Instructor
+Instructor -[hidden]left- Athlete
+Athlete -[hidden]down- Payment
+Payment -[hidden]down- SubscriptionPlan
+
+ModalityEnrollment -[hidden]down- Modality
+TeachingAssignment -[hidden]down- Modality
+
+' =======================
+' RELATIONSHIPS
+' =======================
+
+' GYM
+Gym "1" -- "1" OpeningHours : defines
+Gym "1" -- "1..*" Room : contains
+Gym "1" -- "1..*" Instructor : contains
+Gym "1" -- "0..*" Athlete : contains
+Gym "1" -- "1..*" Modality : offers
+Gym "1" -- "0..*" ClassSession : schedules
+
+' MODALITIES
+Instructor "1" -- "1..*" TeachingAssignment
+TeachingAssignment "1" -- "1" Modality
+
+Athlete "1" -- "0..*" ModalityEnrollment
+ModalityEnrollment "1" -- "1" Modality
+
+' CLASSES
+Modality "1" -- "0..*" ClassSession : has
+Instructor "1" -- "0..*" ClassSession : teaches
+Room "1" -- "0..*" ClassSession : hosts
+ClassSession "1" -- "1" Schedule : occurs at
+
+Athlete "1" -- "0..*" ClassEnrollment
+ClassEnrollment "1" -- "1" ClassSession
+
+' PAYMENTS
+Athlete "1" -- "0..*" Payment : makes
+Athlete "1" -- "1" SubscriptionPlan : subscribes
+
+@enduml

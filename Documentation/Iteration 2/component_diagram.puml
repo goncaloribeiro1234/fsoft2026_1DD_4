@@ -1,0 +1,58 @@
+@startuml
+skinparam style strictuml
+
+component "GymApplication" {
+
+    component "View" as view
+    component "Controller" as ctrl
+    component "Service" as srv
+    component "Repository" as repo
+
+    component "DTO" as dto
+    component "Mapper" as map
+    component "Model" as mdl
+
+    interface " " as i_ctrl
+    interface " " as i_srv
+    interface " " as i_repo
+    interface " " as i_map
+    interface " " as i_mdl
+    interface " " as i_repo_mdl
+    interface " " as i_dto
+}
+
+view -[hidden]right-> dto
+ctrl -[hidden]right-> map
+repo -[hidden]right-> mdl
+
+view -[hidden]down-> ctrl
+ctrl -[hidden]down-> srv
+srv -[hidden]down-> repo
+dto -[hidden]down-> map
+map -[hidden]down-> mdl
+
+view -down-> i_ctrl
+i_ctrl -down- ctrl
+
+ctrl -down-> i_srv
+i_srv -down- srv
+
+srv -down-> i_repo
+i_repo -down- repo
+
+srv -right-> i_map
+i_map -right- map
+
+map -down-> i_mdl
+i_mdl -down- mdl
+
+repo -right-> i_repo_mdl
+i_repo_mdl -right- mdl
+
+dto -down- i_dto
+view -down-> i_dto
+ctrl -right-> i_dto
+srv -up-> i_dto
+map -up-> i_dto
+
+@enduml

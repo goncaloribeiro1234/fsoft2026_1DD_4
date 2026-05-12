@@ -1,0 +1,98 @@
+@startuml
+skinparam style strictuml
+hide empty members
+top to bottom direction
+
+class Gym {
+    name
+    location
+}
+
+class OpeningHours {
+    openingTime
+    closingTime
+}
+
+class User {
+    name
+    userId
+    email
+    password
+}
+
+class Administrator {
+}
+
+class Instructor {
+    specialty
+}
+
+class Athlete {
+    technicalLevel
+}
+
+class Modality {
+    name
+    description
+    minimumLevel
+}
+
+class ClassSession {
+    duration
+}
+
+class Room {
+    name
+    maximumCapacity
+}
+
+class Schedule {
+    date
+    startTime
+    endTime
+}
+
+class Payment {
+    date
+    amount
+    status
+}
+
+class ClassEnrollment {
+    enrollmentDate
+    status
+}
+
+User <|-- Administrator
+User <|-- Instructor
+User <|-- Athlete
+
+Gym -[hidden]down- OpeningHours
+OpeningHours -[hidden]down- User
+User -[hidden]down- Modality
+Modality -[hidden]down- ClassSession
+ClassSession -[hidden]down- Schedule
+
+Gym -[hidden]left- Room
+Room -[hidden]down- ClassEnrollment
+
+Athlete -[hidden]down- Payment
+
+Gym "1" -- "1" OpeningHours : defines
+Gym "1" -- "1..*" Room : contains
+Gym "1" -- "1..*" Modality : offers
+Gym "1" -- "0..*" User : registers
+
+Instructor "1..*" -- "1..*" Modality : qualified to teach
+
+Modality "1" -- "0..*" ClassSession : has
+Instructor "1" -- "0..*" ClassSession : teaches
+Room "1" -- "0..*" ClassSession : hosts
+ClassSession "1" -- "1" Schedule : occurs at
+
+Athlete "1" -- "0..*" ClassEnrollment : makes
+ClassEnrollment "0..*" -- "1" ClassSession : for
+
+Athlete "1" -- "0..*" Payment : makes
+
+@enduml

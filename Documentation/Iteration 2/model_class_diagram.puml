@@ -1,0 +1,123 @@
+@startuml
+skinparam style strictuml
+hide empty members
+top to bottom direction
+
+class Gym {
+    - name: string
+    - location: string
+}
+
+class AthleteContainer {
+    + add(athlete: Athlete*): void
+    + searchByNumber(id: string): Athlete*
+    + getAll(): list<Athlete*>
+}
+
+class InstructorContainer {
+    + add(instructor: Instructor*): void
+    + getAll(): list<Instructor*>
+}
+
+class ModalityContainer {
+    + add(modality: Modality*): void
+    + getAll(): list<Modality*>
+}
+
+class RoomContainer {
+    + add(room: Room*): void
+    + getAll(): list<Room*>
+}
+
+class ClassSessionContainer {
+    + add(session: ClassSession*): void
+    + getAll(): list<ClassSession*>
+}
+
+class ClassEnrollmentContainer {
+    + add(enrollment: ClassEnrollment*): void
+    + getAll(): list<ClassEnrollment*>
+}
+
+abstract class User {
+    - name: string
+    - userId: string
+    - email: string
+    - password: string
+    + getName(): string&
+}
+
+class Administrator {
+}
+
+class Instructor {
+    - specialty: string
+}
+
+class Athlete {
+    - technicalLevel: string
+}
+
+class Modality {
+    - name: string
+    - description: string
+    - minimumLevel: string
+}
+
+class Room {
+    - name: string
+    - maximumCapacity: int
+}
+
+class ClassSession {
+    - duration: int
+}
+
+class Schedule {
+    - date: string
+    - startTime: string
+    - endTime: string
+}
+
+class Payment {
+    - date: string
+    - amount: double
+    - status: string
+}
+
+class ClassEnrollment {
+    - enrollmentDate: string
+    - status: string
+}
+
+User <|-- Administrator
+User <|-- Instructor
+User <|-- Athlete
+
+Gym "1" *-- "1" AthleteContainer
+Gym "1" *-- "1" InstructorContainer
+Gym "1" *-- "1" ModalityContainer
+Gym "1" *-- "1" RoomContainer
+Gym "1" *-- "1" ClassSessionContainer
+Gym "1" *-- "1" ClassEnrollmentContainer
+
+AthleteContainer "1" *-- "*" Athlete
+InstructorContainer "1" *-- "*" Instructor
+ModalityContainer "1" *-- "*" Modality
+RoomContainer "1" *-- "*" Room
+ClassSessionContainer "1" *-- "*" ClassSession
+ClassEnrollmentContainer "1" *-- "*" ClassEnrollment
+
+Instructor "*" -- "*" Modality : qualified to teach
+
+Modality "1" -- "*" ClassSession : has
+Instructor "1" -- "*" ClassSession : teaches
+Room "1" -- "*" ClassSession : hosts
+ClassSession "1" *-- "1" Schedule : occurs at
+
+ClassEnrollment "*" -- "1" Athlete : associated with
+ClassEnrollment "*" -- "1" ClassSession : targets
+
+Athlete "1" *-- "*" Payment : makes
+
+@enduml

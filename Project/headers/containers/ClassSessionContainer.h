@@ -1,0 +1,8 @@
+//
+// Created by gusta on 12/05/2026.
+//
+
+#ifndef CLASSSESSIONCONTAINER_H
+#define CLASSSESSIONCONTAINER_H
+
+#endif //CLASSSESSIONCONTAINER_H

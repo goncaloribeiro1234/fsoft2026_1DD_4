@@ -1,0 +1,52 @@
+@startuml
+title UC8 - Consultar Alunos por Aula
+
+actor "Instrutor" as InstructorActor
+
+participant "controller:Controller" as Controller
+participant "view:View" as View
+participant "classSessionView:ClassSessionView" as ClassSessionView
+participant ":Utils" as Utils
+participant "classSessionService:ClassSessionService" as ClassSessionService
+participant "repo:GymRepositoryMemory" as Repo
+participant "model:Gym" as Gym
+participant "classSessionContainer:ClassSessionContainer" as ClassSessionContainer
+participant "classEnrollmentContainer:ClassEnrollmentContainer" as EnrollmentContainer
+participant "classSession:ClassSession" as ClassSession
+
+InstructorActor -> Controller : select UC8
+
+Controller -> View : menuGym()
+View --> Controller : option
+
+Controller -> ClassSessionView : getClassSessionId()
+
+ClassSessionView -> Utils : getString()
+Utils --> ClassSessionView : classSessionId
+
+ClassSessionView --> Controller : classSessionId
+
+Controller -> ClassSessionService : getAthletesByClass(classSessionId)
+
+ClassSessionService -> Repo : getModel()
+Repo --> ClassSessionService : model
+
+ClassSessionService -> Gym : getClassSessionContainer()
+Gym --> ClassSessionService : classSessionContainer
+
+ClassSessionService -> ClassSessionContainer : searchByNumber(classSessionId)
+ClassSessionContainer --> ClassSessionService : classSession
+
+ClassSessionService -> Gym : getClassEnrollmentContainer()
+Gym --> ClassSessionService : enrollmentContainer
+
+ClassSessionService -> EnrollmentContainer : getAthletesByClass(classSession)
+EnrollmentContainer --> ClassSessionService : athleteList
+
+ClassSessionService --> Controller : athleteList
+
+Controller -> ClassSessionView : showAthletes(athleteList)
+
+ClassSessionView --> InstructorActor : athletes displayed
+
+@enduml

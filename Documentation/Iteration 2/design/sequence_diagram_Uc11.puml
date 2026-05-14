@@ -1,0 +1,55 @@
+@startuml
+title UC11 - Cancelar Reserva de Aula
+
+actor "Atleta" as AthleteActor
+
+participant "controller:Controller" as Controller
+participant "view:View" as View
+participant "reservationView:ReservationView" as ReservationView
+participant ":Utils" as Utils
+participant "cancelDTO:CancelReservationDTO" as CancelDTO
+participant "enrollmentService:ClassEnrollmentService" as EnrollmentService
+participant "repo:GymRepositoryMemory" as Repo
+participant "model:Gym" as Gym
+participant "classEnrollmentContainer:ClassEnrollmentContainer" as EnrollmentContainer
+participant "reservation:ClassEnrollment" as Reservation
+
+AthleteActor -> Controller : select UC11
+
+Controller -> View : menuGym()
+View --> Controller : option
+
+Controller -> ReservationView : getCancelReservation()
+
+ReservationView -> CancelDTO : <<create>>
+
+ReservationView -> Utils : getString()
+Utils --> ReservationView : athleteId
+
+ReservationView -> Utils : getString()
+Utils --> ReservationView : classSessionId
+
+ReservationView -> CancelDTO : assign data
+
+ReservationView --> Controller : cancelDTO
+
+Controller -> EnrollmentService : cancelReservation(cancelDTO)
+
+EnrollmentService -> Repo : getModel()
+Repo --> EnrollmentService : model
+
+EnrollmentService -> Gym : getClassEnrollmentContainer()
+Gym --> EnrollmentService : enrollmentContainer
+
+EnrollmentService -> EnrollmentContainer : searchReservation(athleteId, classSessionId)
+EnrollmentContainer --> EnrollmentService : reservation
+
+EnrollmentService -> Reservation : setStatus("cancelled")
+
+Reservation --> EnrollmentService : success
+
+EnrollmentService --> Controller : success
+
+Controller --> AthleteActor : reservation cancelled
+
+@enduml

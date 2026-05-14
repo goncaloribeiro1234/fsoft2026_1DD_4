@@ -1,0 +1,64 @@
+@startuml
+title UC9 - Efetuar Pagamento de Mensalidade
+
+actor "Atleta" as AthleteActor
+
+participant "controller:Controller" as Controller
+participant "view:View" as View
+participant "paymentView:PaymentView" as PaymentView
+participant ":Utils" as Utils
+participant "paymentDTO:PaymentInDTO" as PaymentDTO
+participant "paymentService:PaymentService" as PaymentService
+participant "repo:GymRepositoryMemory" as Repo
+participant "model:Gym" as Gym
+participant "athleteContainer:AthleteContainer" as AthleteContainer
+participant "athlete:Athlete" as Athlete
+participant "payment:Payment" as Payment
+
+AthleteActor -> Controller : select UC9
+
+Controller -> View : menuGym()
+View --> Controller : option
+
+Controller -> PaymentView : getPayment()
+
+PaymentView -> PaymentDTO : <<create>>
+
+PaymentView -> Utils : getString()
+Utils --> PaymentView : athleteId
+
+PaymentView -> Utils : getDate()
+Utils --> PaymentView : date
+
+PaymentView -> Utils : getDouble()
+Utils --> PaymentView : amount
+
+PaymentView -> Utils : getString()
+Utils --> PaymentView : status
+
+PaymentView -> PaymentDTO : assign data
+
+PaymentView --> Controller : paymentDTO
+
+Controller -> PaymentService : payMonthlyFee(paymentDTO)
+
+PaymentService -> Repo : getModel()
+Repo --> PaymentService : model
+
+PaymentService -> Gym : getAthleteContainer()
+Gym --> PaymentService : athleteContainer
+
+PaymentService -> AthleteContainer : searchByNumber(athleteId)
+AthleteContainer --> PaymentService : athlete
+
+PaymentService -> Payment : <<create>>
+
+PaymentService -> Athlete : addPayment(payment)
+
+Athlete --> PaymentService : success
+
+PaymentService --> Controller : success
+
+Controller --> AthleteActor : payment registered
+
+@enduml

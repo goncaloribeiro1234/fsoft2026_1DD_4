@@ -1,0 +1,57 @@
+@startuml
+title UC3 - Criar Modalidade
+
+actor "Administrativo" as Admin
+
+participant "controller:Controller" as Controller
+participant "view:View" as View
+participant "modalityView:ModalityView" as ModalityView
+participant ":Utils" as Utils
+participant "modalityDTO:ModalityInDTO" as ModalityDTO
+participant "modalityService:ModalityService" as ModalityService
+participant "repo:GymRepositoryMemory" as Repo
+participant "model:Gym" as Gym
+participant "modalityContainer:ModalityContainer" as ModalityContainer
+participant "modality:Modality" as Modality
+
+Admin -> Controller : select UC3
+
+Controller -> View : menuGym()
+View --> Controller : option
+
+Controller -> ModalityView : getModality()
+
+ModalityView -> ModalityDTO : <<create>>
+
+ModalityView -> Utils : getString()
+Utils --> ModalityView : name
+
+ModalityView -> Utils : getString()
+Utils --> ModalityView : description
+
+ModalityView -> Utils : getString()
+Utils --> ModalityView : minimumLevel
+
+ModalityView -> ModalityDTO : assign data
+
+ModalityView --> Controller : modalityDTO
+
+Controller -> ModalityService : add(modalityDTO)
+
+ModalityService -> Repo : getModel()
+Repo --> ModalityService : model
+
+ModalityService -> Gym : getModalityContainer()
+Gym --> ModalityService : modalityContainer
+
+ModalityService -> ModalityContainer : add(modalityDTO)
+
+ModalityContainer -> Modality : <<create>>
+
+ModalityContainer --> ModalityService : modality
+
+ModalityService --> Controller : success
+
+Controller --> Admin : modality created
+
+@enduml

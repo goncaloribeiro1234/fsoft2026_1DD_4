@@ -1,0 +1,54 @@
+@startuml
+title UC4 - Criar Sala
+
+actor "Administrativo" as Admin
+
+participant "controller:Controller" as Controller
+participant "view:View" as View
+participant "roomView:RoomView" as RoomView
+participant ":Utils" as Utils
+participant "roomDTO:RoomInDTO" as RoomDTO
+participant "roomService:RoomService" as RoomService
+participant "repo:GymRepositoryMemory" as Repo
+participant "model:Gym" as Gym
+participant "roomContainer:RoomContainer" as RoomContainer
+participant "room:Room" as Room
+
+Admin -> Controller : select UC4
+
+Controller -> View : menuGym()
+View --> Controller : option
+
+Controller -> RoomView : getRoom()
+
+RoomView -> RoomDTO : <<create>>
+
+RoomView -> Utils : getString()
+Utils --> RoomView : name
+
+RoomView -> Utils : getInt()
+Utils --> RoomView : maximumCapacity
+
+RoomView -> RoomDTO : assign data
+
+RoomView --> Controller : roomDTO
+
+Controller -> RoomService : add(roomDTO)
+
+RoomService -> Repo : getModel()
+Repo --> RoomService : model
+
+RoomService -> Gym : getRoomContainer()
+Gym --> RoomService : roomContainer
+
+RoomService -> RoomContainer : add(roomDTO)
+
+RoomContainer -> Room : <<create>>
+
+RoomContainer --> RoomService : room
+
+RoomService --> Controller : success
+
+Controller --> Admin : room created
+
+@enduml

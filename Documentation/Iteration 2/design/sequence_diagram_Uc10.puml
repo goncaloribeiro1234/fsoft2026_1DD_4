@@ -1,0 +1,73 @@
+@startuml
+title UC10 - Reservar Lugar em Aula
+
+actor "Atleta" as AthleteActor
+
+participant "controller:Controller" as Controller
+participant "view:View" as View
+participant "reservationView:ReservationView" as ReservationView
+participant ":Utils" as Utils
+participant "reservationDTO:ReservationInDTO" as ReservationDTO
+participant "enrollmentService:ClassEnrollmentService" as EnrollmentService
+participant "repo:GymRepositoryMemory" as Repo
+participant "model:Gym" as Gym
+participant "athleteContainer:AthleteContainer" as AthleteContainer
+participant "classSessionContainer:ClassSessionContainer" as ClassSessionContainer
+participant "classEnrollmentContainer:ClassEnrollmentContainer" as EnrollmentContainer
+participant "athlete:Athlete" as Athlete
+participant "classSession:ClassSession" as ClassSession
+participant "reservation:ClassEnrollment" as Reservation
+
+AthleteActor -> Controller : select UC10
+
+Controller -> View : menuGym()
+View --> Controller : option
+
+Controller -> ReservationView : getReservation()
+
+ReservationView -> ReservationDTO : <<create>>
+
+ReservationView -> Utils : getString()
+Utils --> ReservationView : athleteId
+
+ReservationView -> Utils : getString()
+Utils --> ReservationView : classSessionId
+
+ReservationView -> Utils : getDate()
+Utils --> ReservationView : reservationDate
+
+ReservationView -> ReservationDTO : assign data
+
+ReservationView --> Controller : reservationDTO
+
+Controller -> EnrollmentService : reserveClass(reservationDTO)
+
+EnrollmentService -> Repo : getModel()
+Repo --> EnrollmentService : model
+
+EnrollmentService -> Gym : getAthleteContainer()
+Gym --> EnrollmentService : athleteContainer
+
+EnrollmentService -> AthleteContainer : searchByNumber(athleteId)
+AthleteContainer --> EnrollmentService : athlete
+
+EnrollmentService -> Gym : getClassSessionContainer()
+Gym --> EnrollmentService : classSessionContainer
+
+EnrollmentService -> ClassSessionContainer : searchByNumber(classSessionId)
+ClassSessionContainer --> EnrollmentService : classSession
+
+EnrollmentService -> Gym : getClassEnrollmentContainer()
+Gym --> EnrollmentService : enrollmentContainer
+
+EnrollmentService -> EnrollmentContainer : reserve(athlete, classSession, reservationDate)
+
+EnrollmentContainer -> Reservation : <<create>>
+
+EnrollmentContainer --> EnrollmentService : reservation
+
+EnrollmentService --> Controller : success
+
+Controller --> AthleteActor : class reserved
+
+@enduml

@@ -1,0 +1,49 @@
+@startuml
+title UC12 - Consultar Horario de Aulas
+
+actor "Utilizador" as UserActor
+
+participant "controller:Controller" as Controller
+participant "view:View" as View
+participant "scheduleView:ScheduleView" as ScheduleView
+participant ":Utils" as Utils
+participant "scheduleDTO:ScheduleSearchDTO" as ScheduleDTO
+participant "classSessionService:ClassSessionService" as ClassSessionService
+participant "repo:GymRepositoryMemory" as Repo
+participant "model:Gym" as Gym
+participant "classSessionContainer:ClassSessionContainer" as ClassSessionContainer
+
+UserActor -> Controller : select UC12
+
+Controller -> View : menuGym()
+View --> Controller : option
+
+Controller -> ScheduleView : getScheduleSearch()
+
+ScheduleView -> ScheduleDTO : <<create>>
+
+ScheduleView -> Utils : getDate()
+Utils --> ScheduleView : date
+
+ScheduleView -> ScheduleDTO : assign data
+
+ScheduleView --> Controller : scheduleDTO
+
+Controller -> ClassSessionService : getSchedule(scheduleDTO)
+
+ClassSessionService -> Repo : getModel()
+Repo --> ClassSessionService : model
+
+ClassSessionService -> Gym : getClassSessionContainer()
+Gym --> ClassSessionService : classSessionContainer
+
+ClassSessionService -> ClassSessionContainer : getByDate(date)
+ClassSessionContainer --> ClassSessionService : classSessionList
+
+ClassSessionService --> Controller : classSessionList
+
+Controller -> ScheduleView : showSchedule(classSessionList)
+
+ScheduleView --> UserActor : schedule displayed
+
+@enduml

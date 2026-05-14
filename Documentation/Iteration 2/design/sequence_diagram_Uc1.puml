@@ -1,0 +1,62 @@
+@startuml
+title UC1 - Registar Atleta
+
+actor "Administrativo" as Admin
+
+participant "controller:Controller" as Controller
+participant "view:View" as View
+participant "athleteView:AthleteView" as AthleteView
+participant ":Utils" as Utils
+participant "athleteDTO:AthleteInDTO" as AthleteDTO
+participant "athleteService:AthleteService" as AthleteService
+participant "repo:GymRepositoryMemory" as Repo
+participant "model:Gym" as Gym
+participant "athleteContainer:AthleteContainer" as AthleteContainer
+participant "athlete:Athlete" as Athlete
+
+Admin -> Controller : select UC1
+
+Controller -> View : menuGym()
+View --> Controller : option
+
+Controller -> AthleteView : getAthlete()
+
+AthleteView -> AthleteDTO : <<create>>
+
+AthleteView -> Utils : getString()
+Utils --> AthleteView : name
+
+AthleteView -> Utils : getString()
+Utils --> AthleteView : email
+
+AthleteView -> Utils : getString()
+Utils --> AthleteView : password
+
+AthleteView -> Utils : getString()
+Utils --> AthleteView : technicalLevel
+
+AthleteView -> AthleteDTO : assign data
+
+AthleteView --> Controller : athleteDTO
+
+Controller -> AthleteService : add(athleteDTO)
+
+AthleteService -> Repo : getModel()
+Repo --> AthleteService : model
+
+AthleteService -> Gym : getAthleteContainer()
+Gym --> AthleteService : athleteContainer
+
+AthleteService -> AthleteContainer : add(athleteDTO)
+
+AthleteContainer -> AthleteContainer : nextAthleteNumber()
+
+AthleteContainer -> Athlete : <<create>>
+
+AthleteContainer --> AthleteService : athlete
+
+AthleteService --> Controller : success
+
+Controller --> Admin : athlete registered
+
+@enduml

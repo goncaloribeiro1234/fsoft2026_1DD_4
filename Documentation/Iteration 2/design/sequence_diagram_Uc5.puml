@@ -1,0 +1,76 @@
+@startuml
+title UC5 - Inscrever Atleta em Modalidade
+
+actor "Administrativo" as Admin
+
+participant "controller:Controller" as Controller
+participant "view:View" as View
+participant "enrollmentView:EnrollmentView" as EnrollmentView
+participant ":Utils" as Utils
+participant "enrollmentDTO:ClassEnrollmentInDTO" as EnrollmentDTO
+participant "enrollmentService:ClassEnrollmentService" as EnrollmentService
+participant "repo:GymRepositoryMemory" as Repo
+participant "model:Gym" as Gym
+participant "athleteContainer:AthleteContainer" as AthleteContainer
+participant "classSessionContainer:ClassSessionContainer" as ClassSessionContainer
+participant "classEnrollmentContainer:ClassEnrollmentContainer" as EnrollmentContainer
+participant "athlete:Athlete" as Athlete
+participant "classSession:ClassSession" as ClassSession
+participant "enrollment:ClassEnrollment" as Enrollment
+
+Admin -> Controller : select UC5
+
+Controller -> View : menuGym()
+View --> Controller : option
+
+Controller -> EnrollmentView : getEnrollment()
+
+EnrollmentView -> EnrollmentDTO : <<create>>
+
+EnrollmentView -> Utils : getString()
+Utils --> EnrollmentView : athleteId
+
+EnrollmentView -> Utils : getString()
+Utils --> EnrollmentView : classSessionId
+
+EnrollmentView -> Utils : getDate()
+Utils --> EnrollmentView : enrollmentDate
+
+EnrollmentView -> Utils : getString()
+Utils --> EnrollmentView : status
+
+EnrollmentView -> EnrollmentDTO : assign data
+
+EnrollmentView --> Controller : enrollmentDTO
+
+Controller -> EnrollmentService : add(enrollmentDTO)
+
+EnrollmentService -> Repo : getModel()
+Repo --> EnrollmentService : model
+
+EnrollmentService -> Gym : getAthleteContainer()
+Gym --> EnrollmentService : athleteContainer
+
+EnrollmentService -> AthleteContainer : searchByNumber(athleteId)
+AthleteContainer --> EnrollmentService : athlete
+
+EnrollmentService -> Gym : getClassSessionContainer()
+Gym --> EnrollmentService : classSessionContainer
+
+EnrollmentService -> ClassSessionContainer : searchByNumber(classSessionId)
+ClassSessionContainer --> EnrollmentService : classSession
+
+EnrollmentService -> Gym : getClassEnrollmentContainer()
+Gym --> EnrollmentService : enrollmentContainer
+
+EnrollmentService -> EnrollmentContainer : add(athlete, classSession, enrollmentDate, status)
+
+EnrollmentContainer -> Enrollment : <<create>>
+
+EnrollmentContainer --> EnrollmentService : enrollment
+
+EnrollmentService --> Controller : success
+
+Controller --> Admin : athlete enrolled
+
+@enduml

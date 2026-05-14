@@ -1,0 +1,59 @@
+@startuml
+title UC13 - Listar Atletas por Modalidade
+
+actor "Utilizador" as UserActor
+
+participant "controller:Controller" as Controller
+participant "view:View" as View
+participant "modalityView:ModalityView" as ModalityView
+participant ":Utils" as Utils
+participant "modalityService:ModalityService" as ModalityService
+participant "repo:GymRepositoryMemory" as Repo
+participant "model:Gym" as Gym
+participant "modalityContainer:ModalityContainer" as ModalityContainer
+participant "classSessionContainer:ClassSessionContainer" as ClassSessionContainer
+participant "classEnrollmentContainer:ClassEnrollmentContainer" as EnrollmentContainer
+participant "modality:Modality" as Modality
+
+UserActor -> Controller : select UC13
+
+Controller -> View : menuGym()
+View --> Controller : option
+
+Controller -> ModalityView : getModalityName()
+
+ModalityView -> Utils : getString()
+Utils --> ModalityView : modalityName
+
+ModalityView --> Controller : modalityName
+
+Controller -> ModalityService : getAthletesByModality(modalityName)
+
+ModalityService -> Repo : getModel()
+Repo --> ModalityService : model
+
+ModalityService -> Gym : getModalityContainer()
+Gym --> ModalityService : modalityContainer
+
+ModalityService -> ModalityContainer : searchByName(modalityName)
+ModalityContainer --> ModalityService : modality
+
+ModalityService -> Gym : getClassSessionContainer()
+Gym --> ModalityService : classSessionContainer
+
+ModalityService -> ClassSessionContainer : getByModality(modality)
+ClassSessionContainer --> ModalityService : classSessionList
+
+ModalityService -> Gym : getClassEnrollmentContainer()
+Gym --> ModalityService : enrollmentContainer
+
+ModalityService -> EnrollmentContainer : getAthletesBySessions(classSessionList)
+EnrollmentContainer --> ModalityService : athleteList
+
+ModalityService --> Controller : athleteList
+
+Controller -> ModalityView : showAthletes(athleteList)
+
+ModalityView --> UserActor : athletes displayed
+
+@enduml

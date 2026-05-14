@@ -1,0 +1,55 @@
+@startuml
+title UC6 - Atualizar Nivel Tecnico
+
+actor "Instrutor" as InstructorActor
+
+participant "controller:Controller" as Controller
+participant "view:View" as View
+participant "athleteView:AthleteView" as AthleteView
+participant ":Utils" as Utils
+participant "levelDTO:TechnicalLevelDTO" as LevelDTO
+participant "athleteService:AthleteService" as AthleteService
+participant "repo:GymRepositoryMemory" as Repo
+participant "model:Gym" as Gym
+participant "athleteContainer:AthleteContainer" as AthleteContainer
+participant "athlete:Athlete" as Athlete
+
+InstructorActor -> Controller : select UC6
+
+Controller -> View : menuGym()
+View --> Controller : option
+
+Controller -> AthleteView : getTechnicalLevelUpdate()
+
+AthleteView -> LevelDTO : <<create>>
+
+AthleteView -> Utils : getString()
+Utils --> AthleteView : athleteId
+
+AthleteView -> Utils : getString()
+Utils --> AthleteView : newTechnicalLevel
+
+AthleteView -> LevelDTO : assign data
+
+AthleteView --> Controller : levelDTO
+
+Controller -> AthleteService : updateTechnicalLevel(levelDTO)
+
+AthleteService -> Repo : getModel()
+Repo --> AthleteService : model
+
+AthleteService -> Gym : getAthleteContainer()
+Gym --> AthleteService : athleteContainer
+
+AthleteService -> AthleteContainer : searchByNumber(athleteId)
+AthleteContainer --> AthleteService : athlete
+
+AthleteService -> Athlete : setTechnicalLevel(newTechnicalLevel)
+
+Athlete --> AthleteService : success
+
+AthleteService --> Controller : success
+
+Controller --> InstructorActor : technical level updated
+
+@enduml

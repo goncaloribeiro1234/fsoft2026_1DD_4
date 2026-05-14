@@ -1,11 +1,12 @@
 #include "../../headers/services/AthleteService.h"
+#include "../../headers/repo/GymRepositoryMemory.h"
 
 void AthleteService::add(const Athlete& athlete) {
-
-    container.add(athlete);
+    Gym* model = GymRepositoryMemory::getModel();
+    model->getAthleteContainer().add(athlete);
 }
 
 list<Athlete*> AthleteService::getAll() {
-
-    return container.getAll();
+    Gym* model = GymRepositoryMemory::getModel();
+    return model->getAthleteContainer().getAll();
 }

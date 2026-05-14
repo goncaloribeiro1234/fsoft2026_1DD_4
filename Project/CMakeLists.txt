@@ -19,4 +19,6 @@ add_executable(Project
         sources/containers/AthleteContainer.cpp
 
         sources/services/AthleteService.cpp
+
+        sources/repo/GymRepositoryMemory.cpp
 )

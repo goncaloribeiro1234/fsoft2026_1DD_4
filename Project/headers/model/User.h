@@ -25,6 +25,8 @@ public:
     void setName(const string& name);
 
     string getName() const;
+
+    string getEmail() const;
 };
 
 #endif

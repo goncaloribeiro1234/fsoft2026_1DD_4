@@ -30,3 +30,7 @@ void User::setName(const string& name) {
 string User::getName() const {
     return name;
 }
+
+string User::getEmail() const {
+    return email;
+}

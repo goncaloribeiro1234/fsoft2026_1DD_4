@@ -1,5 +1,5 @@
-#ifndef MODALITYCONTAINER_H
-#define MODALITYCONTAINER_H
+#ifndef MODALITYSERVICE_H
+#define MODALITYSERVICE_H
 
 #include <list>
 
@@ -7,10 +7,7 @@
 
 using namespace std;
 
-class ModalityContainer {
-private:
-    list<Modality*> modalities;
-
+class ModalityService {
 public:
     void add(const Modality& modality);
 

@@ -1,10 +1,16 @@
 #include <iostream>
 #include <string>
+
 #include "headers/services/AthleteService.h"
+#include "headers/services/InstructorService.h"
+#include "headers/services/ModalityService.h"
 
 using namespace std;
 
-void menuAdmin(AthleteService& service);
+void menuAdmin(AthleteService& athleteService,
+               InstructorService& instructorService,
+               ModalityService& modalityService);
+
 void menuInstructor();
 void menuAthlete();
 
@@ -22,8 +28,11 @@ int main() {
 
         switch (role) {
             case 1: {
-                AthleteService service;
-                menuAdmin(service);
+                AthleteService athleteService;
+                InstructorService instructorService;
+                ModalityService modalityService;
+
+                menuAdmin(athleteService, instructorService, modalityService);
                 break;
             }
             case 2: menuInstructor(); break;
@@ -32,42 +41,149 @@ int main() {
             default: cout << "Opcao invalida" << endl;
         }
     }
+
     return 0;
 }
 
-void menuAdmin(AthleteService& service) {
+void menuAdmin(AthleteService& athleteService,
+               InstructorService& instructorService,
+               ModalityService& modalityService) {
     int opt = -1;
+
     while (opt != 0) {
         cout << "\n--- MENU ADMINISTRADOR ---" << endl;
         cout << "1. Registar Atleta" << endl;
         cout << "2. Listar Todos os Atletas" << endl;
+        cout << "3. Registar Instrutor" << endl;
+        cout << "4. Listar Todos os Instrutores" << endl;
+        cout << "5. Criar Modalidade" << endl;
+        cout << "6. Listar Modalidades" << endl;
         cout << "0. Voltar" << endl;
         cout << "Opcao: ";
         cin >> opt;
 
         if (opt == 1) {
             string name, email, pass, level;
-            cout << "Nome: "; cin >> name;
-            cout << "Email: "; cin >> email;
-            cout << "Password: "; cin >> pass;
-            cout << "Nivel Tecnico: "; cin >> level;
+
+            cout << "Nome: ";
+            cin >> name;
+
+            cout << "Email: ";
+            cin >> email;
+
+            cout << "Password: ";
+            cin >> pass;
+
+            cout << "Nivel Tecnico: ";
+            cin >> level;
 
             try {
                 Athlete a(name, "TEMP", email, pass, level);
-                service.add(a);
+                athleteService.add(a);
+
                 cout << "SUCESSO: Atleta registado!" << endl;
-            } catch (exception& e) {
+            }
+            catch (exception& e) {
                 cout << "ERRO: " << e.what() << endl;
             }
-        } else if (opt == 2) {
-            auto lista = service.getAll();
+        }
+        else if (opt == 2) {
+            auto lista = athleteService.getAll();
+
             cout << "\n--- LISTAGEM DE ATLETAS ---" << endl;
+
             for (Athlete* a : lista) {
-                cout << "Nome: " << a->getName() << " | Email: " << a->getEmail() << endl;
+                cout << "Nome: "
+                     << a->getName()
+                     << " | Email: "
+                     << a->getEmail()
+                     << endl;
+            }
+        }
+        else if (opt == 3) {
+            string name, email, pass, specialty;
+
+            cout << "Nome: ";
+            cin >> name;
+
+            cout << "Email: ";
+            cin >> email;
+
+            cout << "Password: ";
+            cin >> pass;
+
+            cout << "Especialidade: ";
+            cin >> specialty;
+
+            try {
+                Instructor i(name, "TEMP", email, pass, specialty);
+                instructorService.add(i);
+
+                cout << "SUCESSO: Instrutor registado!" << endl;
+            }
+            catch (exception& e) {
+                cout << "ERRO: " << e.what() << endl;
+            }
+        }
+        else if (opt == 4) {
+            auto lista = instructorService.getAll();
+
+            cout << "\n--- LISTAGEM DE INSTRUTORES ---" << endl;
+
+            for (Instructor* i : lista) {
+                cout << "Nome: "
+                     << i->getName()
+                     << " | Email: "
+                     << i->getEmail()
+                     << " | Especialidade: "
+                     << i->getSpecialty()
+                     << endl;
+            }
+        }
+        else if (opt == 5) {
+            string name, description, minimumLevel;
+
+            cout << "Nome: ";
+            cin >> name;
+
+            cout << "Descricao: ";
+            cin >> description;
+
+            cout << "Nivel Minimo: ";
+            cin >> minimumLevel;
+
+            try {
+                Modality m(name, description, minimumLevel);
+                modalityService.add(m);
+
+                cout << "SUCESSO: Modalidade criada!" << endl;
+            }
+            catch (exception& e) {
+                cout << "ERRO: " << e.what() << endl;
+            }
+        }
+        else if (opt == 6) {
+            auto lista = modalityService.getAll();
+
+            cout << "\n--- LISTAGEM DE MODALIDADES ---" << endl;
+
+            for (Modality* m : lista) {
+                cout << "Nome: "
+                     << m->getName()
+                     << " | Descricao: "
+                     << m->getDescription()
+                     << " | Nivel Minimo: "
+                     << m->getMinimumLevel()
+                     << endl;
             }
         }
     }
 }
 
-void menuInstructor() { cout << "\nem desenvolvimento" << endl; }
-void menuAthlete() { cout << "\nem desenvolvimento" << endl; }
+void menuInstructor() {
+    cout << "\nem desenvolvimento" << endl;
+}
+
+void menuAthlete() {
+    cout << "\nem desenvolvimento" << endl;
+}

@@ -13,12 +13,23 @@ add_executable(Project
         sources/model/User.cpp
         sources/model/Athlete.cpp
         sources/model/Instructor.cpp
+        sources/model/Gym.cpp
+        sources/model/Modality.cpp
 
         sources/exceptions/InvalidDataException.cpp
 
         sources/containers/AthleteContainer.cpp
+        sources/containers/InstructorContainer.cpp
+        sources/containers/ModalityContainer.cpp
 
         sources/services/AthleteService.cpp
+        sources/services/InstructorService.cpp
+        sources/services/ModalityService.cpp
 
         sources/repo/GymRepositoryMemory.cpp
+        headers/services/InstructorService.h
+        headers/services/ModalityService.h
+
+
+
 )

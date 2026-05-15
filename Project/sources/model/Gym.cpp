@@ -17,14 +17,3 @@ ModalityContainer& Gym::getModalityContainer() {
     return modalityContainer;
 }
 
-RoomContainer& Gym::getRoomContainer() {
-    return roomContainer;
-}
-
-ClassSessionContainer& Gym::getClassSessionContainer() {
-    return classSessionContainer;
-}
-
-ClassEnrollmentContainer& Gym::getClassEnrollmentContainer() {
-    return classEnrollmentContainer;
-}

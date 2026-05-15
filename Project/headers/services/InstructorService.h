@@ -1,17 +1,15 @@
-#ifndef INSTRUCTORCONTAINER_H
-#define INSTRUCTORCONTAINER_H
+#ifndef INSTRUCTORSERVICE_H
+#define INSTRUCTORSERVICE_H
 
 #include <list>
 #include "../model/Instructor.h"
 
 using namespace std;
 
-class InstructorContainer {
-private:
-    list<Instructor*> instructors;
-
+class InstructorService {
 public:
     void add(const Instructor& instructor);
+
     list<Instructor*> getAll();
 };
 

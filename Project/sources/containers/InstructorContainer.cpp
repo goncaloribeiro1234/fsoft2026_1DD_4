@@ -1,3 +1,9 @@
-//
-// Created by gusta on 12/05/2026.
-//
+#include "../../headers/containers/InstructorContainer.h"
+
+void InstructorContainer::add(const Instructor& instructor) {
+    instructors.push_back(new Instructor(instructor));
+}
+
+list<Instructor*> InstructorContainer::getAll() {
+    return instructors;
+}

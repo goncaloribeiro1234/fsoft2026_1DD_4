@@ -13,6 +13,7 @@ protected:
     string password;
 
     bool isNameValid(const string& name);
+    bool isEmailValid(const string& email);
 
 public:
     User(const string& name,

@@ -4,6 +4,7 @@
 #include "headers/services/AthleteService.h"
 #include "headers/services/InstructorService.h"
 #include "headers/services/ModalityService.h"
+#include "headers/exceptions/InvalidDataException.h"
 
 using namespace std;
 
@@ -74,8 +75,32 @@ void menuAdmin(AthleteService& athleteService,
             cout << "Password: ";
             cin >> pass;
 
-            cout << "Nivel Tecnico: ";
-            cin >> level;
+            cout << "\nSelecione o Nivel Tecnico:" << endl;
+            cout << "1. Beginner" << endl;
+            cout << "2. Intermediate" << endl;
+            cout << "3. Advanced" << endl;
+            cout << "Opcao: ";
+
+            int levelOption;
+            cin >> levelOption;
+
+            switch(levelOption) {
+
+            case 1:
+                level = "Beginner";
+                break;
+
+            case 2:
+                level = "Intermediate";
+                break;
+
+            case 3:
+                level = "Advanced";
+                break;
+
+            default:
+                throw InvalidDataException("Invalid technical level.");
+            }
 
             try {
                 Athlete a(name, "TEMP", email, pass, level);

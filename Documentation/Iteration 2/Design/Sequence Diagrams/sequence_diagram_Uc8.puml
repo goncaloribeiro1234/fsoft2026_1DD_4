@@ -1,52 +1,64 @@
 @startuml
-title UC8 - Consultar Alunos por Aula
+title UC8 - Efetuar Pagamento de Mensalidade
 
-actor "Instrutor" as InstructorActor
+actor "Atleta" as AthleteActor
 
 participant "controller:Controller" as Controller
 participant "view:View" as View
-participant "classSessionView:ClassSessionView" as ClassSessionView
+participant "paymentView:PaymentView" as PaymentView
 participant ":Utils" as Utils
-participant "classSessionService:ClassSessionService" as ClassSessionService
+participant "paymentDTO:PaymentInDTO" as PaymentDTO
+participant "paymentService:PaymentService" as PaymentService
 participant "repo:GymRepositoryMemory" as Repo
 participant "model:Gym" as Gym
-participant "classSessionContainer:ClassSessionContainer" as ClassSessionContainer
-participant "classEnrollmentContainer:ClassEnrollmentContainer" as EnrollmentContainer
-participant "classSession:ClassSession" as ClassSession
+participant "athleteContainer:AthleteContainer" as AthleteContainer
+participant "athlete:Athlete" as Athlete
+participant "payment:Payment" as Payment
 
-InstructorActor -> Controller : select UC8
+AthleteActor -> Controller : select UC9
 
 Controller -> View : menuGym()
 View --> Controller : option
 
-Controller -> ClassSessionView : getClassSessionId()
+Controller -> PaymentView : getPayment()
 
-ClassSessionView -> Utils : getString()
-Utils --> ClassSessionView : classSessionId
+PaymentView -> PaymentDTO : <<create>>
 
-ClassSessionView --> Controller : classSessionId
+PaymentView -> Utils : getString()
+Utils --> PaymentView : athleteId
 
-Controller -> ClassSessionService : getAthletesByClass(classSessionId)
+PaymentView -> Utils : getDate()
+Utils --> PaymentView : date
 
-ClassSessionService -> Repo : getModel()
-Repo --> ClassSessionService : model
+PaymentView -> Utils : getDouble()
+Utils --> PaymentView : amount
 
-ClassSessionService -> Gym : getClassSessionContainer()
-Gym --> ClassSessionService : classSessionContainer
+PaymentView -> Utils : getString()
+Utils --> PaymentView : status
 
-ClassSessionService -> ClassSessionContainer : searchByNumber(classSessionId)
-ClassSessionContainer --> ClassSessionService : classSession
+PaymentView -> PaymentDTO : assign data
 
-ClassSessionService -> Gym : getClassEnrollmentContainer()
-Gym --> ClassSessionService : enrollmentContainer
+PaymentView --> Controller : paymentDTO
 
-ClassSessionService -> EnrollmentContainer : getAthletesByClass(classSession)
-EnrollmentContainer --> ClassSessionService : athleteList
+Controller -> PaymentService : payMonthlyFee(paymentDTO)
 
-ClassSessionService --> Controller : athleteList
+PaymentService -> Repo : getModel()
+Repo --> PaymentService : model
 
-Controller -> ClassSessionView : showAthletes(athleteList)
+PaymentService -> Gym : getAthleteContainer()
+Gym --> PaymentService : athleteContainer
 
-ClassSessionView --> InstructorActor : athletes displayed
+PaymentService -> AthleteContainer : searchByNumber(athleteId)
+AthleteContainer --> PaymentService : athlete
+
+PaymentService -> Payment : <<create>>
+
+PaymentService -> Athlete : addPayment(payment)
+
+Athlete --> PaymentService : success
+
+PaymentService --> Controller : success
+
+Controller --> AthleteActor : payment registered
 
 @enduml

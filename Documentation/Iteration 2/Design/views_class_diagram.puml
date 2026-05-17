@@ -1,0 +1,76 @@
+@startuml
+skinparam style strictuml
+
+title Views Class Diagram
+
+package "       " {
+    class MainView {
+        + show(): void
+        - loginProcess(): void
+    }
+
+    class AdminView {
+        + showMenu(): void
+        - registerAthlete(): void
+        - registerInstructor(): void
+        - registerModality(): void
+        - registerRoom(): void
+        - advanceSystemDate(): void
+    }
+
+    class InstructorView {
+        + showMenu(): void
+        - scheduleClassSession(): void
+        - consultInstructorSchedule(): void
+    }
+
+    class AthleteView {
+        + showMenu(): void
+        - enrollInClass(): void
+        - consultPersonalSchedule(): void
+        - checkPaymentStatus(): void
+    }
+
+    class Utils {
+        + {static} readString(prompt: string): string
+        + {static} readInt(prompt: string): int
+        + {static} readDouble(prompt: string): double
+        + {static} clearScreen(): void
+    }
+}
+
+package "controllers" {
+    class AdminController
+    class AthleteController
+    class InstructorController
+    class ClassSessionController
+}
+
+package "dto" {
+    class AthleteInDTO
+    class InstructorInDTO
+    class ClassSessionInDTO
+    class EnrollmentInDTO
+}
+
+MainView ..> AdminView
+MainView ..> InstructorView
+MainView ..> AthleteView
+
+AdminView --> AdminController
+AdminView --> AthleteController
+AdminView --> InstructorController
+AdminView ..> AthleteInDTO
+AdminView ..> InstructorInDTO
+AdminView ..> Utils
+
+InstructorView --> ClassSessionController
+InstructorView ..> ClassSessionInDTO
+InstructorView ..> Utils
+
+AthleteView --> AthleteController
+AthleteView --> ClassSessionController
+AthleteView ..> EnrollmentInDTO
+AthleteView ..> Utils
+
+@enduml

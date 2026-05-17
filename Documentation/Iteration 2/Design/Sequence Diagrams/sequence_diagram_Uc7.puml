@@ -1,5 +1,5 @@
 @startuml
-title UC7 - Agendar Aula
+title UC7 - Consultar Alunos por Aula
 
 actor "Instrutor" as InstructorActor
 
@@ -7,90 +7,46 @@ participant "controller:Controller" as Controller
 participant "view:View" as View
 participant "classSessionView:ClassSessionView" as ClassSessionView
 participant ":Utils" as Utils
-participant "classSessionDTO:ClassSessionInDTO" as ClassSessionDTO
 participant "classSessionService:ClassSessionService" as ClassSessionService
 participant "repo:GymRepositoryMemory" as Repo
 participant "model:Gym" as Gym
-participant "modalityContainer:ModalityContainer" as ModalityContainer
-participant "instructorContainer:InstructorContainer" as InstructorContainer
-participant "roomContainer:RoomContainer" as RoomContainer
 participant "classSessionContainer:ClassSessionContainer" as ClassSessionContainer
-participant "modality:Modality" as Modality
-participant "instructor:Instructor" as Instructor
-participant "room:Room" as Room
-participant "schedule:Schedule" as Schedule
+participant "classEnrollmentContainer:ClassEnrollmentContainer" as EnrollmentContainer
 participant "classSession:ClassSession" as ClassSession
 
-InstructorActor -> Controller : select UC7
+InstructorActor -> Controller : select UC8
 
 Controller -> View : menuGym()
 View --> Controller : option
 
-Controller -> ClassSessionView : getClassSession()
-
-ClassSessionView -> ClassSessionDTO : <<create>>
+Controller -> ClassSessionView : getClassSessionId()
 
 ClassSessionView -> Utils : getString()
-Utils --> ClassSessionView : modalityName
+Utils --> ClassSessionView : classSessionId
 
-ClassSessionView -> Utils : getString()
-Utils --> ClassSessionView : instructorId
+ClassSessionView --> Controller : classSessionId
 
-ClassSessionView -> Utils : getString()
-Utils --> ClassSessionView : roomName
-
-ClassSessionView -> Utils : getDate()
-Utils --> ClassSessionView : date
-
-ClassSessionView -> Utils : getString()
-Utils --> ClassSessionView : startTime
-
-ClassSessionView -> Utils : getString()
-Utils --> ClassSessionView : endTime
-
-ClassSessionView -> Utils : getInt()
-Utils --> ClassSessionView : duration
-
-ClassSessionView -> ClassSessionDTO : assign data
-
-ClassSessionView --> Controller : classSessionDTO
-
-Controller -> ClassSessionService : add(classSessionDTO)
+Controller -> ClassSessionService : getAthletesByClass(classSessionId)
 
 ClassSessionService -> Repo : getModel()
 Repo --> ClassSessionService : model
 
-ClassSessionService -> Gym : getModalityContainer()
-Gym --> ClassSessionService : modalityContainer
-
-ClassSessionService -> ModalityContainer : searchByName(modalityName)
-ModalityContainer --> ClassSessionService : modality
-
-ClassSessionService -> Gym : getInstructorContainer()
-Gym --> ClassSessionService : instructorContainer
-
-ClassSessionService -> InstructorContainer : searchByNumber(instructorId)
-InstructorContainer --> ClassSessionService : instructor
-
-ClassSessionService -> Gym : getRoomContainer()
-Gym --> ClassSessionService : roomContainer
-
-ClassSessionService -> RoomContainer : searchByName(roomName)
-RoomContainer --> ClassSessionService : room
-
-ClassSessionService -> Schedule : <<create>>
-
 ClassSessionService -> Gym : getClassSessionContainer()
 Gym --> ClassSessionService : classSessionContainer
 
-ClassSessionService -> ClassSessionContainer : add(modality, instructor, room, schedule, duration)
-
-ClassSessionContainer -> ClassSession : <<create>>
-
+ClassSessionService -> ClassSessionContainer : searchByNumber(classSessionId)
 ClassSessionContainer --> ClassSessionService : classSession
 
-ClassSessionService --> Controller : success
+ClassSessionService -> Gym : getClassEnrollmentContainer()
+Gym --> ClassSessionService : enrollmentContainer
 
-Controller --> InstructorActor : class session scheduled
+ClassSessionService -> EnrollmentContainer : getAthletesByClass(classSession)
+EnrollmentContainer --> ClassSessionService : athleteList
+
+ClassSessionService --> Controller : athleteList
+
+Controller -> ClassSessionView : showAthletes(athleteList)
+
+ClassSessionView --> InstructorActor : athletes displayed
 
 @enduml

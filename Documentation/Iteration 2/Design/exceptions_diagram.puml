@@ -1,27 +1,28 @@
 @startuml
-'https://plantuml.com/class-diagram
+skinparam style strictuml
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
+title Exceptions Class Diagram
 
-List <|-- AbstractList
-Collection <|-- AbstractCollection
-
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
+class "std::exception" as exception {
+    what() : char*
 }
 
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
+package "         " {
+    class InvalidDataException {
+        InvalidDataException(message: string)
+    }
+
+    class NoDataException {
+        NoDataException(message: string)
+    }
+
+    class DuplicatedDataException {
+        DuplicatedDataException(message: string)
+    }
 }
+
+exception <|-- InvalidDataException
+exception <|-- NoDataException
+exception <|-- DuplicatedDataException
 
 @enduml

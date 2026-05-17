@@ -1,15 +1,42 @@
 @startuml
-'https://plantuml.com/sequence-diagram
+skinparam style strictuml
 
-autonumber
+title Package Diagram
 
-== Initialization ==
+package "          " {
+    package "views"
+    package "controllers"
+    package "services"
+    package "repo"
+    package "containers"
+    package "model"
+    package "dto"
+    package "mappers"
+    package "exceptions"
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
+    file "main.cpp" as main
+}
 
-== Repetition ==
+main --> controllers
+main --> services
+main --> repo
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+views --> dto
+
+controllers --> services
+controllers --> dto
+controllers --> exceptions
+controllers --> views
+
+services --> repo
+services --> mappers
+services --> dto
+services --> exceptions
+services --> containers
+
+repo --> model
+containers --> model
+mappers --> dto
+mappers --> model
+
 @enduml

@@ -1,55 +1,49 @@
 @startuml
-title UC11 - Cancelar Reserva de Aula
+title UC11 - Consultar Horario de Aulas
 
-actor "Atleta" as AthleteActor
+actor "Utilizador" as UserActor
 
 participant "controller:Controller" as Controller
 participant "view:View" as View
-participant "reservationView:ReservationView" as ReservationView
+participant "scheduleView:ScheduleView" as ScheduleView
 participant ":Utils" as Utils
-participant "cancelDTO:CancelReservationDTO" as CancelDTO
-participant "enrollmentService:ClassEnrollmentService" as EnrollmentService
+participant "scheduleDTO:ScheduleSearchDTO" as ScheduleDTO
+participant "classSessionService:ClassSessionService" as ClassSessionService
 participant "repo:GymRepositoryMemory" as Repo
 participant "model:Gym" as Gym
-participant "classEnrollmentContainer:ClassEnrollmentContainer" as EnrollmentContainer
-participant "reservation:ClassEnrollment" as Reservation
+participant "classSessionContainer:ClassSessionContainer" as ClassSessionContainer
 
-AthleteActor -> Controller : select UC11
+UserActor -> Controller : select UC12
 
 Controller -> View : menuGym()
 View --> Controller : option
 
-Controller -> ReservationView : getCancelReservation()
+Controller -> ScheduleView : getScheduleSearch()
 
-ReservationView -> CancelDTO : <<create>>
+ScheduleView -> ScheduleDTO : <<create>>
 
-ReservationView -> Utils : getString()
-Utils --> ReservationView : athleteId
+ScheduleView -> Utils : getDate()
+Utils --> ScheduleView : date
 
-ReservationView -> Utils : getString()
-Utils --> ReservationView : classSessionId
+ScheduleView -> ScheduleDTO : assign data
 
-ReservationView -> CancelDTO : assign data
+ScheduleView --> Controller : scheduleDTO
 
-ReservationView --> Controller : cancelDTO
+Controller -> ClassSessionService : getSchedule(scheduleDTO)
 
-Controller -> EnrollmentService : cancelReservation(cancelDTO)
+ClassSessionService -> Repo : getModel()
+Repo --> ClassSessionService : model
 
-EnrollmentService -> Repo : getModel()
-Repo --> EnrollmentService : model
+ClassSessionService -> Gym : getClassSessionContainer()
+Gym --> ClassSessionService : classSessionContainer
 
-EnrollmentService -> Gym : getClassEnrollmentContainer()
-Gym --> EnrollmentService : enrollmentContainer
+ClassSessionService -> ClassSessionContainer : getByDate(date)
+ClassSessionContainer --> ClassSessionService : classSessionList
 
-EnrollmentService -> EnrollmentContainer : searchReservation(athleteId, classSessionId)
-EnrollmentContainer --> EnrollmentService : reservation
+ClassSessionService --> Controller : classSessionList
 
-EnrollmentService -> Reservation : setStatus("cancelled")
+Controller -> ScheduleView : showSchedule(classSessionList)
 
-Reservation --> EnrollmentService : success
-
-EnrollmentService --> Controller : success
-
-Controller --> AthleteActor : reservation cancelled
+ScheduleView --> UserActor : schedule displayed
 
 @enduml

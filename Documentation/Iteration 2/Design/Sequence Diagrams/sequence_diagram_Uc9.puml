@@ -1,64 +1,73 @@
 @startuml
-title UC9 - Efetuar Pagamento de Mensalidade
+title UC9 - Reservar Lugar em Aula
 
 actor "Atleta" as AthleteActor
 
 participant "controller:Controller" as Controller
 participant "view:View" as View
-participant "paymentView:PaymentView" as PaymentView
+participant "reservationView:ReservationView" as ReservationView
 participant ":Utils" as Utils
-participant "paymentDTO:PaymentInDTO" as PaymentDTO
-participant "paymentService:PaymentService" as PaymentService
+participant "reservationDTO:ReservationInDTO" as ReservationDTO
+participant "enrollmentService:ClassEnrollmentService" as EnrollmentService
 participant "repo:GymRepositoryMemory" as Repo
 participant "model:Gym" as Gym
 participant "athleteContainer:AthleteContainer" as AthleteContainer
+participant "classSessionContainer:ClassSessionContainer" as ClassSessionContainer
+participant "classEnrollmentContainer:ClassEnrollmentContainer" as EnrollmentContainer
 participant "athlete:Athlete" as Athlete
-participant "payment:Payment" as Payment
+participant "classSession:ClassSession" as ClassSession
+participant "reservation:ClassEnrollment" as Reservation
 
-AthleteActor -> Controller : select UC9
+AthleteActor -> Controller : select UC10
 
 Controller -> View : menuGym()
 View --> Controller : option
 
-Controller -> PaymentView : getPayment()
+Controller -> ReservationView : getReservation()
 
-PaymentView -> PaymentDTO : <<create>>
+ReservationView -> ReservationDTO : <<create>>
 
-PaymentView -> Utils : getString()
-Utils --> PaymentView : athleteId
+ReservationView -> Utils : getString()
+Utils --> ReservationView : athleteId
 
-PaymentView -> Utils : getDate()
-Utils --> PaymentView : date
+ReservationView -> Utils : getString()
+Utils --> ReservationView : classSessionId
 
-PaymentView -> Utils : getDouble()
-Utils --> PaymentView : amount
+ReservationView -> Utils : getDate()
+Utils --> ReservationView : reservationDate
 
-PaymentView -> Utils : getString()
-Utils --> PaymentView : status
+ReservationView -> ReservationDTO : assign data
 
-PaymentView -> PaymentDTO : assign data
+ReservationView --> Controller : reservationDTO
 
-PaymentView --> Controller : paymentDTO
+Controller -> EnrollmentService : reserveClass(reservationDTO)
 
-Controller -> PaymentService : payMonthlyFee(paymentDTO)
+EnrollmentService -> Repo : getModel()
+Repo --> EnrollmentService : model
 
-PaymentService -> Repo : getModel()
-Repo --> PaymentService : model
+EnrollmentService -> Gym : getAthleteContainer()
+Gym --> EnrollmentService : athleteContainer
 
-PaymentService -> Gym : getAthleteContainer()
-Gym --> PaymentService : athleteContainer
+EnrollmentService -> AthleteContainer : searchByNumber(athleteId)
+AthleteContainer --> EnrollmentService : athlete
 
-PaymentService -> AthleteContainer : searchByNumber(athleteId)
-AthleteContainer --> PaymentService : athlete
+EnrollmentService -> Gym : getClassSessionContainer()
+Gym --> EnrollmentService : classSessionContainer
 
-PaymentService -> Payment : <<create>>
+EnrollmentService -> ClassSessionContainer : searchByNumber(classSessionId)
+ClassSessionContainer --> EnrollmentService : classSession
 
-PaymentService -> Athlete : addPayment(payment)
+EnrollmentService -> Gym : getClassEnrollmentContainer()
+Gym --> EnrollmentService : enrollmentContainer
 
-Athlete --> PaymentService : success
+EnrollmentService -> EnrollmentContainer : reserve(athlete, classSession, reservationDate)
 
-PaymentService --> Controller : success
+EnrollmentContainer -> Reservation : <<create>>
 
-Controller --> AthleteActor : payment registered
+EnrollmentContainer --> EnrollmentService : reservation
+
+EnrollmentService --> Controller : success
+
+Controller --> AthleteActor : class reserved
 
 @enduml

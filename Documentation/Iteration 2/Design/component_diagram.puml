@@ -1,58 +1,51 @@
 @startuml
-skinparam style strictuml
+skinparam componentStyle uml2
+top to bottom direction
 
-component "GymApplication" {
+title Component Diagram
 
-    component "View" as view
-    component "Controller" as ctrl
-    component "Service" as srv
-    component "Repository" as repo
+package "          " {
 
-    component "DTO" as dto
-    component "Mapper" as map
-    component "Model" as mdl
+    component [View] as V
+    component [Controller] as C
+    component [Service] as S
+    component [Repository] as R
 
-    interface " " as i_ctrl
-    interface " " as i_srv
-    interface " " as i_repo
-    interface " " as i_map
-    interface " " as i_mdl
-    interface " " as i_repo_mdl
-    interface " " as i_dto
+    component [DTO] as D
+    component [Mapper] as M
+    component [Model] as Mod
+
+    () " " as i1
+    () " " as i2
+    () " " as i3
+    () " " as i4
+    () " " as i5
+    () " " as i6
+
+    V -right[hidden]- D
+    C -right[hidden]- D
+    S -right[hidden]- M
+    R -right[hidden]- Mod
+
+    V -down-( i1
+    i1 -down- C
+
+    C -down-( i2
+    i2 -down- S
+
+    S -down-( i3
+    i3 -down- R
+
+    D -left- i4
+    V -right-( i4
+    C -right-( i4
+    S -right-( i4
+
+    S -right-( i5
+    i5 - M
+
+    M -down-( i6
+    R -right-( i6
+    i6 - Mod
 }
-
-view -[hidden]right-> dto
-ctrl -[hidden]right-> map
-repo -[hidden]right-> mdl
-
-view -[hidden]down-> ctrl
-ctrl -[hidden]down-> srv
-srv -[hidden]down-> repo
-dto -[hidden]down-> map
-map -[hidden]down-> mdl
-
-view -down-> i_ctrl
-i_ctrl -down- ctrl
-
-ctrl -down-> i_srv
-i_srv -down- srv
-
-srv -down-> i_repo
-i_repo -down- repo
-
-srv -right-> i_map
-i_map -right- map
-
-map -down-> i_mdl
-i_mdl -down- mdl
-
-repo -right-> i_repo_mdl
-i_repo_mdl -right- mdl
-
-dto -down- i_dto
-view -down-> i_dto
-ctrl -right-> i_dto
-srv -up-> i_dto
-map -up-> i_dto
-
 @enduml

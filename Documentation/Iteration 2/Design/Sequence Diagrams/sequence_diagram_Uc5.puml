@@ -1,76 +1,55 @@
 @startuml
-title UC5 - Inscrever Atleta em Modalidade
+title UC5 - Atualizar Nivel Tecnico
 
-actor "Administrativo" as Admin
+actor "Instrutor" as InstructorActor
 
 participant "controller:Controller" as Controller
 participant "view:View" as View
-participant "enrollmentView:EnrollmentView" as EnrollmentView
+participant "athleteView:AthleteView" as AthleteView
 participant ":Utils" as Utils
-participant "enrollmentDTO:ClassEnrollmentInDTO" as EnrollmentDTO
-participant "enrollmentService:ClassEnrollmentService" as EnrollmentService
+participant "levelDTO:TechnicalLevelDTO" as LevelDTO
+participant "athleteService:AthleteService" as AthleteService
 participant "repo:GymRepositoryMemory" as Repo
 participant "model:Gym" as Gym
 participant "athleteContainer:AthleteContainer" as AthleteContainer
-participant "classSessionContainer:ClassSessionContainer" as ClassSessionContainer
-participant "classEnrollmentContainer:ClassEnrollmentContainer" as EnrollmentContainer
 participant "athlete:Athlete" as Athlete
-participant "classSession:ClassSession" as ClassSession
-participant "enrollment:ClassEnrollment" as Enrollment
 
-Admin -> Controller : select UC5
+InstructorActor -> Controller : select UC6
 
 Controller -> View : menuGym()
 View --> Controller : option
 
-Controller -> EnrollmentView : getEnrollment()
+Controller -> AthleteView : getTechnicalLevelUpdate()
 
-EnrollmentView -> EnrollmentDTO : <<create>>
+AthleteView -> LevelDTO : <<create>>
 
-EnrollmentView -> Utils : getString()
-Utils --> EnrollmentView : athleteId
+AthleteView -> Utils : getString()
+Utils --> AthleteView : athleteId
 
-EnrollmentView -> Utils : getString()
-Utils --> EnrollmentView : classSessionId
+AthleteView -> Utils : getString()
+Utils --> AthleteView : newTechnicalLevel
 
-EnrollmentView -> Utils : getDate()
-Utils --> EnrollmentView : enrollmentDate
+AthleteView -> LevelDTO : assign data
 
-EnrollmentView -> Utils : getString()
-Utils --> EnrollmentView : status
+AthleteView --> Controller : levelDTO
 
-EnrollmentView -> EnrollmentDTO : assign data
+Controller -> AthleteService : updateTechnicalLevel(levelDTO)
 
-EnrollmentView --> Controller : enrollmentDTO
+AthleteService -> Repo : getModel()
+Repo --> AthleteService : model
 
-Controller -> EnrollmentService : add(enrollmentDTO)
+AthleteService -> Gym : getAthleteContainer()
+Gym --> AthleteService : athleteContainer
 
-EnrollmentService -> Repo : getModel()
-Repo --> EnrollmentService : model
+AthleteService -> AthleteContainer : searchByNumber(athleteId)
+AthleteContainer --> AthleteService : athlete
 
-EnrollmentService -> Gym : getAthleteContainer()
-Gym --> EnrollmentService : athleteContainer
+AthleteService -> Athlete : setTechnicalLevel(newTechnicalLevel)
 
-EnrollmentService -> AthleteContainer : searchByNumber(athleteId)
-AthleteContainer --> EnrollmentService : athlete
+Athlete --> AthleteService : success
 
-EnrollmentService -> Gym : getClassSessionContainer()
-Gym --> EnrollmentService : classSessionContainer
+AthleteService --> Controller : success
 
-EnrollmentService -> ClassSessionContainer : searchByNumber(classSessionId)
-ClassSessionContainer --> EnrollmentService : classSession
-
-EnrollmentService -> Gym : getClassEnrollmentContainer()
-Gym --> EnrollmentService : enrollmentContainer
-
-EnrollmentService -> EnrollmentContainer : add(athlete, classSession, enrollmentDate, status)
-
-EnrollmentContainer -> Enrollment : <<create>>
-
-EnrollmentContainer --> EnrollmentService : enrollment
-
-EnrollmentService --> Controller : success
-
-Controller --> Admin : athlete enrolled
+Controller --> InstructorActor : technical level updated
 
 @enduml

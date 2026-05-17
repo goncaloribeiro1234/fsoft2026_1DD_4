@@ -3,6 +3,8 @@ skinparam style strictuml
 hide empty members
 top to bottom direction
 
+title Domain Model
+
 class Gym {
     name
     location

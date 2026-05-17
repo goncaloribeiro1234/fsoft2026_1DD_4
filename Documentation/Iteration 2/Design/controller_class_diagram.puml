@@ -1,0 +1,66 @@
+@startuml
+skinparam style strictuml
+
+title Controller Class Diagram
+
+package "controllers" {
+    class AdminController {
+        + advanceSystemDate(): void
+        + addModality(name: string, desc: string, level: string): void
+        + addRoom(name: string, capacity: int): void
+    }
+
+    class AthleteController {
+        + addAthlete(dto: AthleteInDTO): void
+        + findAllAthletes(): list<AthleteOutDTO>
+        + findPaymentsByAthlete(athleteId: string): list<PaymentOutDTO>
+    }
+
+    class InstructorController {
+        + addInstructor(dto: InstructorInDTO): void
+        + findAllInstructors(): list<InstructorOutDTO>
+    }
+
+    class ClassSessionController {
+        + scheduleSession(dto: ClassSessionInDTO): void
+        + enrollAthlete(dto: EnrollmentInDTO): void
+        + getScheduleByAthlete(athleteId: string): list<ClassSessionOutDTO>
+        + getScheduleByInstructor(instructorId: string): list<ClassSessionOutDTO>
+    }
+}
+
+package "services" {
+    class AdminService
+    class AthleteService
+    class InstructorService
+    class ClassSessionService
+}
+
+package "dto" {
+    class AthleteInDTO
+    class AthleteOutDTO
+    class InstructorInDTO
+    class InstructorOutDTO
+    class ClassSessionInDTO
+    class ClassSessionOutDTO
+    class EnrollmentInDTO
+    class PaymentOutDTO
+}
+
+AdminController ..> AdminService
+
+AthleteController ..> AthleteService
+AthleteController ..> AthleteInDTO
+AthleteController ..> AthleteOutDTO
+AthleteController ..> PaymentOutDTO
+
+InstructorController ..> InstructorService
+InstructorController ..> InstructorInDTO
+InstructorController ..> InstructorOutDTO
+
+ClassSessionController ..> ClassSessionService
+ClassSessionController ..> ClassSessionInDTO
+ClassSessionController ..> ClassSessionOutDTO
+ClassSessionController ..> EnrollmentInDTO
+
+@enduml

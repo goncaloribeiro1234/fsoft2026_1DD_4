@@ -2,6 +2,7 @@
 skinparam style strictuml
 hide empty members
 top to bottom direction
+title Model Class Diagram
 
 class Gym {
     - name: string
@@ -9,39 +10,36 @@ class Gym {
 }
 
 class AthleteContainer {
-    + add(athlete: Athlete*): void
-    + searchByNumber(id: string): Athlete*
+    + add(athlete: Athlete): void
+    + searchByEmail(email: string): Athlete*
     + getAll(): list<Athlete*>
+    - nextAthleteNumber(): string
 }
 
 class InstructorContainer {
-    + add(instructor: Instructor*): void
+    + add(instructor: Instructor): void
     + getAll(): list<Instructor*>
 }
 
 class ModalityContainer {
-    + add(modality: Modality*): void
+    + add(modality: Modality): void
     + getAll(): list<Modality*>
 }
 
 class RoomContainer {
-    + add(room: Room*): void
-    + getAll(): list<Room*>
+    + add(room: Room): void
 }
 
 class ClassSessionContainer {
-    + add(session: ClassSession*): void
-    + getAll(): list<ClassSession*>
+    + add(session: ClassSession): void
 }
 
-class ClassEnrollmentContainer {
-    + add(enrollment: ClassEnrollment*): void
-    + getAll(): list<ClassEnrollment*>
+class PaymentContainer {
+    + add(payment: Payment): void
 }
 
 abstract class User {
     - name: string
-    - userId: string
     - email: string
     - password: string
     + getName(): string&
@@ -99,25 +97,16 @@ Gym "1" *-- "1" InstructorContainer
 Gym "1" *-- "1" ModalityContainer
 Gym "1" *-- "1" RoomContainer
 Gym "1" *-- "1" ClassSessionContainer
-Gym "1" *-- "1" ClassEnrollmentContainer
 
 AthleteContainer "1" *-- "*" Athlete
 InstructorContainer "1" *-- "*" Instructor
 ModalityContainer "1" *-- "*" Modality
 RoomContainer "1" *-- "*" Room
 ClassSessionContainer "1" *-- "*" ClassSession
-ClassEnrollmentContainer "1" *-- "*" ClassEnrollment
 
-Instructor "*" -- "*" Modality : qualified to teach
-
-Modality "1" -- "*" ClassSession : has
-Instructor "1" -- "*" ClassSession : teaches
-Room "1" -- "*" ClassSession : hosts
-ClassSession "1" *-- "1" Schedule : occurs at
-
-ClassEnrollment "*" -- "1" Athlete : associated with
-ClassEnrollment "*" -- "1" ClassSession : targets
-
-Athlete "1" *-- "*" Payment : makes
+ClassSession "1" *-- "1" Schedule
+Athlete "1" *-- "*" Payment
+Athlete "1" *-- "*" ClassEnrollment
+ClassEnrollment "*" -- "1" ClassSession
 
 @enduml

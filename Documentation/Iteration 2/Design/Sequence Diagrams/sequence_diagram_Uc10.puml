@@ -1,5 +1,5 @@
 @startuml
-title UC10 - Reservar Lugar em Aula
+title UC10 - Cancelar Reserva de Aula
 
 actor "Atleta" as AthleteActor
 
@@ -7,25 +7,21 @@ participant "controller:Controller" as Controller
 participant "view:View" as View
 participant "reservationView:ReservationView" as ReservationView
 participant ":Utils" as Utils
-participant "reservationDTO:ReservationInDTO" as ReservationDTO
+participant "cancelDTO:CancelReservationDTO" as CancelDTO
 participant "enrollmentService:ClassEnrollmentService" as EnrollmentService
 participant "repo:GymRepositoryMemory" as Repo
 participant "model:Gym" as Gym
-participant "athleteContainer:AthleteContainer" as AthleteContainer
-participant "classSessionContainer:ClassSessionContainer" as ClassSessionContainer
 participant "classEnrollmentContainer:ClassEnrollmentContainer" as EnrollmentContainer
-participant "athlete:Athlete" as Athlete
-participant "classSession:ClassSession" as ClassSession
 participant "reservation:ClassEnrollment" as Reservation
 
-AthleteActor -> Controller : select UC10
+AthleteActor -> Controller : select UC11
 
 Controller -> View : menuGym()
 View --> Controller : option
 
-Controller -> ReservationView : getReservation()
+Controller -> ReservationView : getCancelReservation()
 
-ReservationView -> ReservationDTO : <<create>>
+ReservationView -> CancelDTO : <<create>>
 
 ReservationView -> Utils : getString()
 Utils --> ReservationView : athleteId
@@ -33,41 +29,27 @@ Utils --> ReservationView : athleteId
 ReservationView -> Utils : getString()
 Utils --> ReservationView : classSessionId
 
-ReservationView -> Utils : getDate()
-Utils --> ReservationView : reservationDate
+ReservationView -> CancelDTO : assign data
 
-ReservationView -> ReservationDTO : assign data
+ReservationView --> Controller : cancelDTO
 
-ReservationView --> Controller : reservationDTO
-
-Controller -> EnrollmentService : reserveClass(reservationDTO)
+Controller -> EnrollmentService : cancelReservation(cancelDTO)
 
 EnrollmentService -> Repo : getModel()
 Repo --> EnrollmentService : model
 
-EnrollmentService -> Gym : getAthleteContainer()
-Gym --> EnrollmentService : athleteContainer
-
-EnrollmentService -> AthleteContainer : searchByNumber(athleteId)
-AthleteContainer --> EnrollmentService : athlete
-
-EnrollmentService -> Gym : getClassSessionContainer()
-Gym --> EnrollmentService : classSessionContainer
-
-EnrollmentService -> ClassSessionContainer : searchByNumber(classSessionId)
-ClassSessionContainer --> EnrollmentService : classSession
-
 EnrollmentService -> Gym : getClassEnrollmentContainer()
 Gym --> EnrollmentService : enrollmentContainer
 
-EnrollmentService -> EnrollmentContainer : reserve(athlete, classSession, reservationDate)
-
-EnrollmentContainer -> Reservation : <<create>>
-
+EnrollmentService -> EnrollmentContainer : searchReservation(athleteId, classSessionId)
 EnrollmentContainer --> EnrollmentService : reservation
+
+EnrollmentService -> Reservation : setStatus("cancelled")
+
+Reservation --> EnrollmentService : success
 
 EnrollmentService --> Controller : success
 
-Controller --> AthleteActor : class reserved
+Controller --> AthleteActor : reservation cancelled
 
 @enduml

@@ -1,27 +1,84 @@
 @startuml
-'https://plantuml.com/class-diagram
+title Global Class Diagram
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
+skinparam classAttributeIconSize 0
+hide methods
 
-List <|-- AbstractList
-Collection <|-- AbstractCollection
-
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
+class "main.cpp" as Main {
+  - Inicia aplicacao
+  - Menus
 }
 
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
+class View {
+  - Recolhe inputs
+  - Mostra resultados
 }
+
+class Controller {
+  - Coordena UC
+  - Chama services
+}
+
+class DTO {
+  - Transporta dados
+  - View -> Service
+}
+
+class Service {
+  - Regras de negocio
+  - Usa repository
+  - Usa containers
+}
+
+class Repository {
+  - GymRepositoryMemory
+  - Guarda model em memoria
+}
+
+class Mappers {
+  - DTO -> Model
+  - Model -> DTO
+}
+
+class Exceptions {
+  - InvalidDataException
+  - NoDataException
+  - DuplicatedDataException
+}
+
+class Containers {
+  - AthleteContainer
+  - InstructorContainer
+  - ModalityContainer
+  - RoomContainer
+  - Outros
+}
+
+class Model {
+  - Gym
+  - User
+  - Athlete
+  - Instructor
+  - Modality
+  - Room
+  - ClassSession
+}
+
+Main --> View : uses
+Main --> Service : uses
+Main --> Mappers : uses
+
+View --> Controller : uses
+Controller --> DTO : passes
+Controller --> Service : calls
+
+Service --> DTO : creates DTO
+Service --> Repository : uses
+Service --> Mappers : maps
+Service --> Exceptions : throws
+Service --> Containers : manipulates
+
+Repository --> Model : returns
+Containers --> Model : has
 
 @enduml

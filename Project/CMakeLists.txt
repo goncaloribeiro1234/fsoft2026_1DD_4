@@ -30,6 +30,14 @@ add_executable(Project
         headers/services/InstructorService.h
         headers/services/ModalityService.h
 
+        headers/views/AdminView.h
+        headers/views/MainView.h
+        headers/controllers/AthleteController.h
+
+        sources/views/AdminView.cpp
+        sources/views/MainView.cpp
+        sources/controllers/AthleteController.cpp
+
 
 
 )

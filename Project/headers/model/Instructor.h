@@ -15,6 +15,8 @@ public:
                const string& specialty);
 
     string getSpecialty() const;
+
+    string & getRole() const;
 };
 
 #endif

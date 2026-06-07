@@ -2,12 +2,16 @@
 #define ADMINVIEW_H
 
 #include "../controllers/AthleteController.h"
+#include "../controllers/InstructorController.h"
+#include "../controllers/RoomController.h"
+#include "../controllers/ModalityController.h"
 
 class AdminView {
 private:
     AthleteController athleteController;
-    //InstructorController instructorController;
-    //ModalityController modalityController;
+    InstructorController instructorController;
+    ModalityController modalityController;
+    RoomController roomController;
 
 public:
     void showMenu();

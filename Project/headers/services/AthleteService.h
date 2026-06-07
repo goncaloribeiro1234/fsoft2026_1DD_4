@@ -8,9 +8,6 @@
 using namespace std;
 
 class AthleteService {
-private:
-    AthleteContainer container;
-
 public:
     void add(const Athlete& athlete);
 

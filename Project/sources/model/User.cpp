@@ -20,7 +20,6 @@ User::User(const string& name,
 }
 
 bool User::isNameValid(const string& name) {
-
     if(name.length() < 3) {
         return false;
     }
@@ -30,8 +29,7 @@ bool User::isNameValid(const string& name) {
     }
 
     for(char c : name) {
-
-        if(!isalpha(c) && c != ' ') {
+        if(c >= 0 && !isalpha(c) && c != ' ') {
             return false;
         }
     }

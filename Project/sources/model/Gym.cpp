@@ -17,3 +17,7 @@ ModalityContainer& Gym::getModalityContainer() {
     return modalityContainer;
 }
 
+RoomContainer& Gym::getRoomContainer() {
+    return roomContainer;
+}
+

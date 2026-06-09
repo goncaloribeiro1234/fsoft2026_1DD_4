@@ -1,4 +1,5 @@
 #include "../../headers/controllers/ClassSessionController.h"
+#include "../../headers/exceptions/InvalidDataException.h"
 
 void ClassSessionController::createClassSession(
         const string& modality,
@@ -8,6 +9,28 @@ void ClassSessionController::createClassSession(
         const string& startTime,
         const string& endTime,
         int duration) {
+
+    if(classSessionService.hasRoomConflict(
+            room,
+            date,
+            startTime,
+            endTime)) {
+
+        throw InvalidDataException(
+                "Room already occupied at this time."
+        );
+            }
+
+    if(classSessionService.hasInstructorConflict(
+            instructor,
+            date,
+            startTime,
+            endTime)) {
+
+        throw InvalidDataException(
+                "Instructor already has a class at this time."
+        );
+            }
 
     ClassSession session(
             modality,

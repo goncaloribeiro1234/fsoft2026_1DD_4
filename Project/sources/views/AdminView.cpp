@@ -447,17 +447,27 @@ void AdminView::showMenu() {
             cout << "Duracao (minutos): ";
             cin >> duration;
 
-            classSessionController.createClassSession(
-                modality,
-                instructor,
-                room,
-                date,
-                startTime,
-                endTime,
-                duration
-            );
+            try {
 
-            cout << "\nSUCESSO: Aula criada!" << endl;
+                classSessionController.createClassSession(
+                        modality,
+                        instructor,
+                        room,
+                        date,
+                        startTime,
+                        endTime,
+                        duration
+                );
+
+                cout << "\nSUCESSO: Aula criada!" << endl;
+            }
+            catch(exception& e) {
+
+                cout
+                        << "\nERRO: "
+                        << e.what()
+                        << endl;
+            }
         }
         else if (opt == 10) {
 

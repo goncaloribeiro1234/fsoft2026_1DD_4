@@ -40,7 +40,7 @@ string ClassSession::getEndTime() const {
     return endTime;
 }
 
-int ClassSession::getDuration() const {
+int ClassSession::getduration() const {
 
     int startHour = stoi(startTime.substr(0, 2));
     int startMinute = stoi(startTime.substr(3, 2));

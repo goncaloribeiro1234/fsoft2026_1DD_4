@@ -18,6 +18,8 @@ void AdminView::showMenu() {
         cout << "7. Listar Modalidades" << endl;
         cout << "8. Criar Aula" << endl;
         cout << "9. Listar Aulas" << endl;
+        cout << "10. Inscrever Atleta em Aula" << endl;
+        cout << "11. Listar Inscricoes" << endl;
         cout << "0. Voltar" << endl;
 
         cout << "Opcao: ";
@@ -157,14 +159,20 @@ void AdminView::showMenu() {
                         << endl;
             }
         } else if (opt == 4) {
-            auto lista =
+            auto atletas =
                     athleteController.findAllAthletes();
 
             cout
                     << "\n--- LISTAGEM DE ATLETAS ---"
                     << endl;
 
-            for (auto a: lista) {
+            if (atletas.empty()) {
+                cout
+                        << "Ainda nao ha atletas registados."
+                        << endl;
+            }
+
+            for (auto a: atletas) {
                 cout
                         << "Nome: "
                         << a->getName()
@@ -392,7 +400,6 @@ void AdminView::showMenu() {
             cin >> endTime;
 
             try {
-                cout << "\nDEBUG 1" << endl;
 
                 classSessionController.createClassSession(
                         modality,
@@ -402,8 +409,6 @@ void AdminView::showMenu() {
                         startTime,
                         endTime
                 );
-
-                cout << "\nDEBUG 2" << endl;
 
                 cout << "\nSUCESSO: Aula criada!" << endl;
             }
@@ -453,8 +458,167 @@ void AdminView::showMenu() {
                         << s->getEndTime()
 
                         << "\nDuracao: "
-                        << s->getDuration()
+                        << s->getduration()
                         << " minutos"
+
+                        << endl;
+            }
+        }
+
+        else if (opt == 10) {
+
+            auto athletes =
+                    athleteController.findAllAthletes();
+
+            auto sessions =
+                    classSessionController.findAllSessions();
+
+            if(athletes.empty()) {
+
+                cout << "Nao existem atletas registados."
+                     << endl;
+
+                continue;
+            }
+
+            if(sessions.empty()) {
+
+                cout << "Nao existem aulas criadas."
+                     << endl;
+
+                continue;
+            }
+
+            cout << "\n--- INSCRICAO EM AULA ---"
+                 << endl;
+
+            vector<string> athleteNames;
+
+            int index = 1;
+
+            cout << "\nSelecione o Atleta:"
+                 << endl;
+
+            for(auto a : athletes) {
+
+                cout << index
+                     << ". "
+                     << a->getName()
+                     << endl;
+
+                athleteNames.push_back(
+                        a->getName()
+                );
+
+                index++;
+            }
+
+            int athleteChoice;
+
+            cout << "Opcao: ";
+            cin >> athleteChoice;
+
+            string athleteName =
+                    athleteNames[
+                            athleteChoice - 1
+                    ];
+
+            vector<ClassSession*> sessionList;
+
+            index = 1;
+
+            cout << "\nSelecione a Aula:"
+                 << endl;
+
+            for(auto s : sessions) {
+
+                cout
+                        << index
+                        << ". "
+                        << s->getModality()
+
+                        << " - "
+                        << s->getDate()
+
+                        << " "
+                        << s->getStartTime()
+
+                        << " - "
+                        << s->getEndTime()
+
+                        << endl;
+
+                sessionList.push_back(s);
+
+                index++;
+            }
+
+            int sessionChoice;
+
+            cout << "Opcao: ";
+            cin >> sessionChoice;
+
+            ClassSession* selectedSession =
+                    sessionList[
+                            sessionChoice - 1
+                    ];
+
+            try {
+
+                classEnrollmentController.enrollAthlete(
+                        athleteName,
+                        selectedSession->getModality(),
+                        selectedSession->getDate(),
+                        selectedSession->getStartTime(),
+                        selectedSession->getEndTime(),
+                        selectedSession->getRoom()
+                );
+
+                cout << "\nSUCESSO: Inscricao criada!"
+                     << endl;
+            }
+            catch(exception& e) {
+
+                cout << "\nERRO: "
+                     << e.what()
+                     << endl;
+            }
+        }
+
+        else if (opt == 11) {
+
+            auto enrollments =
+                    classEnrollmentController
+                            .findAllEnrollments();
+
+            cout
+                    << "\n--- LISTAGEM DE INSCRICOES ---"
+                    << endl;
+
+            if(enrollments.empty()) {
+
+                cout
+                        << "Nao existem inscricoes."
+                        << endl;
+            }
+
+            for(auto e : enrollments) {
+
+                cout
+                        << "\nAtleta: "
+                        << e->getAthleteName()
+
+                        << "\nModalidade: "
+                        << e->getModality()
+
+                        << "\nData: "
+                        << e->getClassDate()
+
+                        << "\nHora Inicio: "
+                        << e->getStartTime()
+
+                        << "\nHora Fim: "
+                        << e->getEndTime()
 
                         << endl;
             }

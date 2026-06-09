@@ -22,6 +22,7 @@ private:
     ModalityContainer modalityContainer;
     RoomContainer roomContainer;
     ClassSessionContainer classSessionContainer;
+    ClassEnrollmentContainer classEnrollmentContainer;
 
 public:
     Gym(const string& name, const string& location);
@@ -31,6 +32,7 @@ public:
     ModalityContainer& getModalityContainer();
     RoomContainer& getRoomContainer();
     ClassSessionContainer& getClassSessionContainer();
+    ClassEnrollmentContainer& getClassEnrollmentContainer();
 
 };
 

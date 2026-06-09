@@ -25,3 +25,8 @@ ClassSessionContainer& Gym::getClassSessionContainer() {
 
     return classSessionContainer;
 }
+
+ClassEnrollmentContainer& Gym::getClassEnrollmentContainer() {
+
+    return classEnrollmentContainer;
+}

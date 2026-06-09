@@ -6,6 +6,7 @@
 #include "../controllers/RoomController.h"
 #include "../controllers/ModalityController.h"
 #include "../controllers/ClassSessionController.h"
+#include "../controllers/ClassEnrollmentController.h"
 
 class AdminView {
 private:
@@ -14,6 +15,7 @@ private:
     ModalityController modalityController;
     RoomController roomController;
     ClassSessionController classSessionController;
+    ClassEnrollmentController classEnrollmentController;
 
 public:
     void showMenu();

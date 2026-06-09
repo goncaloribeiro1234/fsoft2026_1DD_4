@@ -31,7 +31,7 @@ public:
     string getStartTime() const;
     string getEndTime() const;
 
-    int getDuration() const;
+    int getduration() const;
 };
 
 #endif

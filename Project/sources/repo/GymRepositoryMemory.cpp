@@ -5,8 +5,8 @@ Gym* GymRepositoryMemory::model = nullptr;
 
 Gym* GymRepositoryMemory::getModel() {
 
-    if (model == nullptr) {
-
+    if (model == nullptr)
+    {
         model = new Gym("ISEP Gym", "Porto");
 
         // ARTES MARCIAIS E COMBATE
@@ -89,23 +89,23 @@ Gym* GymRepositoryMemory::getModel() {
                         "Postura e fortalecimento muscular"
                 )
         );
-    }
+
         model->getInstructorContainer().add(
-    Instructor(
-        "Joao Silva",
-        "INS001",
-        "joao@gym.pt",
-        "1111",
-        "Boxe"
-    )
-);
+            Instructor(
+                "Joao Silva",
+                "INS001",
+                "joao@gym.pt",
+                "0001",
+                "Boxe"
+            )
+        );
 
         model->getInstructorContainer().add(
             Instructor(
                 "Ana Costa",
                 "INS002",
                 "ana@gym.pt",
-                "2222",
+                "0002",
                 "Muay Thai"
             )
         );
@@ -115,7 +115,7 @@ Gym* GymRepositoryMemory::getModel() {
                 "Pedro Santos",
                 "INS003",
                 "pedro@gym.pt",
-                "3333",
+                "0003",
                 "Jiu-Jitsu"
             )
         );
@@ -125,17 +125,37 @@ Gym* GymRepositoryMemory::getModel() {
                 "Ricardo Lopes",
                 "INS004",
                 "ricardo@gym.pt",
-                "4444",
+                "0004",
                 "Karate"
             )
         );
 
         model->getInstructorContainer().add(
             Instructor(
-                "Bruno Rocha",
+                "Tiago Fernandes",
                 "INS005",
+                "tiago@gym.pt",
+                "0005",
+                "Kickboxing"
+            )
+        );
+
+        model->getInstructorContainer().add(
+            Instructor(
+                "Andre Ribeiro",
+                "INS006",
+                "andre@gym.pt",
+                "0006",
+                "MMA"
+            )
+        );
+
+        model->getInstructorContainer().add(
+            Instructor(
+                "Bruno Rocha",
+                "INS007",
                 "bruno@gym.pt",
-                "5555",
+                "0007",
                 "Musculacao"
             )
         );
@@ -143,9 +163,9 @@ Gym* GymRepositoryMemory::getModel() {
         model->getInstructorContainer().add(
             Instructor(
                 "Marta Ferreira",
-                "INS006",
+                "INS008",
                 "marta@gym.pt",
-                "6666",
+                "0008",
                 "CrossFit"
             )
         );
@@ -153,12 +173,45 @@ Gym* GymRepositoryMemory::getModel() {
         model->getInstructorContainer().add(
             Instructor(
                 "Sofia Almeida",
-                "INS007",
+                "INS009",
                 "sofia@gym.pt",
-                "7777",
+                "0009",
                 "Cycling"
             )
         );
+
+        model->getInstructorContainer().add(
+            Instructor(
+                "Carla Martins",
+                "INS010",
+                "carla@gym.pt",
+                "0010",
+                "Yoga"
+            )
+        );
+
+        model->getInstructorContainer().add(
+            Instructor(
+                "Miguel Sousa",
+                "INS011",
+                "miguel@gym.pt",
+                "0011",
+                "Pilates"
+            )
+        );
+
+        model->getRoomContainer().addRoom(
+            new Room("Sala A", 5)
+        );
+
+        model->getRoomContainer().addRoom(
+            new Room("Sala B", 10)
+        );
+
+        model->getRoomContainer().addRoom(
+            new Room("Sala C", 20)
+        );
+    }
 
     return model;
 }

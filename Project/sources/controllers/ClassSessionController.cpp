@@ -7,8 +7,7 @@ void ClassSessionController::createClassSession(
         const string& room,
         const string& date,
         const string& startTime,
-        const string& endTime,
-        int duration) {
+        const string& endTime) {
 
     if(classSessionService.hasRoomConflict(
             room,
@@ -38,8 +37,7 @@ void ClassSessionController::createClassSession(
             room,
             date,
             startTime,
-            endTime,
-            duration
+            endTime
     );
 
     classSessionService.add(session);

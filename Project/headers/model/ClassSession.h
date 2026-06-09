@@ -15,16 +15,13 @@ private:
     string startTime;
     string endTime;
 
-    int duration;
-
 public:
     ClassSession(const string& modality,
                  const string& instructor,
                  const string& room,
                  const string& date,
                  const string& startTime,
-                 const string& endTime,
-                 int duration);
+                 const string& endTime);
 
     string getModality() const;
     string getInstructor() const;

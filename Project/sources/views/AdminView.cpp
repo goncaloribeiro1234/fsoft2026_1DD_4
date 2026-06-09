@@ -12,23 +12,22 @@ void AdminView::showMenu() {
         cout << "1. Registar Atleta" << endl;
         cout << "2. Registar Instrutor" << endl;
         cout << "3. Criar Sala" << endl;
-        cout << "4. Criar Modalidade" << endl;
-        cout << "5. Listar Todos os Atletas" << endl;
-        cout << "6. Listar Todos os Instrutores" << endl;
-        cout << "7. Listar Todas as Salas" << endl;
-        cout << "8. Listar Modalidades" << endl;
-        cout << "9. Criar Aula" << endl;
-        cout << "10. Listar Aulas" << endl;
+        cout << "4. Listar Todos os Atletas" << endl;
+        cout << "5. Listar Todos os Instrutores" << endl;
+        cout << "6. Listar Todas as Salas" << endl;
+        cout << "7. Listar Modalidades" << endl;
+        cout << "8. Criar Aula" << endl;
+        cout << "9. Listar Aulas" << endl;
         cout << "0. Voltar" << endl;
 
         cout << "Opcao: ";
         cin >> opt;
 
         if (opt == 1) {
+
             string name;
             string email;
             string pass;
-            string level;
 
             cout << "Nome: ";
             cin >> name;
@@ -39,39 +38,22 @@ void AdminView::showMenu() {
             cout << "Password: ";
             cin >> pass;
 
-            cout << "\nSelecione o Nivel Tecnico:" << endl;
-            cout << "1. Iniciante" << endl;
-            cout << "2. Intermedio" << endl;
-            cout << "3. Avancado" << endl;
-            cout << "Opcao: ";
-
-            int levelOption;
-            cin >> levelOption;
-
-            if (levelOption == 1)
-                level = "Iniciante";
-            else if (levelOption == 2)
-                level = "Intermedio";
-            else if (levelOption == 3)
-                level = "Avancado";
-            else {
-                cout << "Nivel invalido." << endl;
-                continue;
-            }
-
             try {
+
                 athleteController.addAthlete(
-                    name,
-                    email,
-                    pass,
-                    level
+                        name,
+                        email,
+                        pass,
+                        "Sem Nivel"
                 );
 
                 cout << "SUCESSO: Atleta registado!" << endl;
-            } catch (exception &e) {
+            }
+            catch(exception &e) {
+
                 cout << "ERRO: "
-                        << e.what()
-                        << endl;
+                     << e.what()
+                     << endl;
             }
         } else if (opt == 2) {
             string name;
@@ -148,7 +130,8 @@ void AdminView::showMenu() {
                         << e.what()
                         << endl;
             }
-        } else if (opt == 3) {
+        } else if (opt == 3)
+        {
             string name;
             int capacity;
 
@@ -174,48 +157,6 @@ void AdminView::showMenu() {
                         << endl;
             }
         } else if (opt == 4) {
-            string name;
-            string description;
-            string minimumLevel;
-
-            cout << "Nome da Modalidade: ";
-
-            cin >> ws;
-            getline(cin, name);
-
-            cout << "Descricao: ";
-            getline(cin, description);
-
-            cout << "\nNivel Minimo:" << endl;
-            cout << "1. Iniciante" << endl;
-            cout << "2. Intermedio" << endl;
-            cout << "3. Avancado" << endl;
-            cout << "Opcao: ";
-
-            int levelOption;
-            cin >> levelOption;
-
-            if (levelOption == 1)
-                minimumLevel = "Iniciante";
-            else if (levelOption == 2)
-                minimumLevel = "Intermedio";
-            else if (levelOption == 3)
-                minimumLevel = "Avancado";
-            else {
-                cout << "Nivel invalido." << endl;
-                continue;
-            }
-
-            modalityController.createModality(
-                name,
-                description,
-                minimumLevel
-            );
-
-            cout
-                    << "SUCESSO: Modalidade criada!"
-                    << endl;
-        } else if (opt == 5) {
             auto lista =
                     athleteController.findAllAthletes();
 
@@ -233,7 +174,7 @@ void AdminView::showMenu() {
 
                         << endl;
             }
-        } else if (opt == 6) {
+        } else if (opt == 5) {
             auto instrutores =
                     instructorController.findAllInstructors();
 
@@ -257,7 +198,7 @@ void AdminView::showMenu() {
 
                         << endl;
             }
-        } else if (opt == 7) {
+        } else if (opt == 6) {
             auto salas =
                     roomController.findAllRooms();
 
@@ -282,7 +223,7 @@ void AdminView::showMenu() {
                         << " pessoas"
                         << endl;
             }
-        } else if (opt == 8) {
+        } else if (opt == 7) {
             auto modalidades =
                     modalityController.findAllModalities();
 
@@ -304,12 +245,9 @@ void AdminView::showMenu() {
                         << " | Descricao: "
                         << m->getDescription()
 
-                        << " | Nivel Minimo: "
-                        << m->getMinimumLevel()
-
                         << endl;
             }
-        } else if (opt == 9) {
+        } else if (opt == 8) {
             auto modalidades =
                     modalityController.findAllModalities();
 
@@ -326,8 +264,6 @@ void AdminView::showMenu() {
             string date;
             string startTime;
             string endTime;
-
-            int duration;
 
             cout << "\n--- CRIAR AULA ---" << endl;
 
@@ -358,6 +294,11 @@ void AdminView::showMenu() {
             cout << "Opcao: ";
             cin >> modChoice;
 
+            if(modChoice < 1 || modChoice > modalityNames.size()) {
+                cout << "Opcao invalida." << endl;
+                continue;
+            }
+
             modality =
                     modalityNames[modChoice - 1];
 
@@ -370,22 +311,28 @@ void AdminView::showMenu() {
             index = 1;
 
             for (auto i: instrutores) {
-                cout
-                        << index
-                        << ". "
-                        << i->getName()
 
-                        << " ("
-                        << i->getSpecialty()
-                        << ")"
+                if(i->getSpecialty() == modality) {
 
-                        << endl;
+                    cout << index << ". "
+                         << i->getName()
+                         << endl;
 
-                instructorNames.push_back(
-                    i->getName()
-                );
+                    instructorNames.push_back(
+                            i->getName()
+                    );
 
-                index++;
+                    index++;
+                }
+            }
+
+            if(instructorNames.empty()) {
+
+                cout << "\nNao existem instrutores para "
+                     << modality
+                     << endl;
+
+                continue;
             }
 
             int instructorChoice;
@@ -444,10 +391,8 @@ void AdminView::showMenu() {
             cout << "Hora Fim (HH:MM): ";
             cin >> endTime;
 
-            cout << "Duracao (minutos): ";
-            cin >> duration;
-
             try {
+                cout << "\nDEBUG 1" << endl;
 
                 classSessionController.createClassSession(
                         modality,
@@ -455,9 +400,10 @@ void AdminView::showMenu() {
                         room,
                         date,
                         startTime,
-                        endTime,
-                        duration
+                        endTime
                 );
+
+                cout << "\nDEBUG 2" << endl;
 
                 cout << "\nSUCESSO: Aula criada!" << endl;
             }
@@ -469,7 +415,7 @@ void AdminView::showMenu() {
                         << endl;
             }
         }
-        else if (opt == 10) {
+        else if (opt == 9) {
 
             auto sessions =
                     classSessionController.findAllSessions();
@@ -508,7 +454,6 @@ void AdminView::showMenu() {
 
                         << "\nDuracao: "
                         << s->getDuration()
-
                         << " minutos"
 
                         << endl;

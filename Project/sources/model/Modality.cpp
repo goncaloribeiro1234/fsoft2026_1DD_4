@@ -1,12 +1,10 @@
 #include "../../headers/model/Modality.h"
 
 Modality::Modality(const string& name,
-                   const string& description,
-                   const string& minimumLevel) {
+                   const string& description) {
 
     this->name = name;
     this->description = description;
-    this->minimumLevel = minimumLevel;
 }
 
 string Modality::getName() const {
@@ -15,8 +13,4 @@ string Modality::getName() const {
 
 string Modality::getDescription() const {
     return description;
-}
-
-string Modality::getMinimumLevel() const {
-    return minimumLevel;
 }

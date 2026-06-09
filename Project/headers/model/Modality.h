@@ -9,18 +9,15 @@ class Modality {
 private:
     string name;
     string description;
-    string minimumLevel;
 
 public:
     Modality(const string& name,
-             const string& description,
-             const string& minimumLevel);
+             const string& description);
 
     string getName() const;
 
     string getDescription() const;
 
-    string getMinimumLevel() const;
 };
 
 #endif

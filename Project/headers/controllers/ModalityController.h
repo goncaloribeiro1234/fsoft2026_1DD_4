@@ -12,8 +12,7 @@ private:
 
 public:
     void createModality(const string& name,
-                        const string& description,
-                        const string& minimumLevel);
+                        const string& description);
 
     list<Modality*> findAllModalities();
 };

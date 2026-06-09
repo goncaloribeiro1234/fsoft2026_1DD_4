@@ -5,8 +5,7 @@ ClassSession::ClassSession(const string& modality,
                            const string& room,
                            const string& date,
                            const string& startTime,
-                           const string& endTime,
-                           int duration) {
+                           const string& endTime) {
 
     this->modality = modality;
     this->instructor = instructor;
@@ -15,8 +14,6 @@ ClassSession::ClassSession(const string& modality,
     this->date = date;
     this->startTime = startTime;
     this->endTime = endTime;
-
-    this->duration = duration;
 }
 
 string ClassSession::getModality() const {
@@ -44,5 +41,15 @@ string ClassSession::getEndTime() const {
 }
 
 int ClassSession::getDuration() const {
-    return duration;
+
+    int startHour = stoi(startTime.substr(0, 2));
+    int startMinute = stoi(startTime.substr(3, 2));
+
+    int endHour = stoi(endTime.substr(0, 2));
+    int endMinute = stoi(endTime.substr(3, 2));
+
+    int startTotal = startHour * 60 + startMinute;
+    int endTotal = endHour * 60 + endMinute;
+
+    return endTotal - startTotal;
 }

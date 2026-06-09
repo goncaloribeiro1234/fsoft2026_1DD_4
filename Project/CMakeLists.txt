@@ -16,6 +16,7 @@ add_executable(Project
         sources/model/Gym.cpp
         sources/model/Modality.cpp
         sources/model/Room.cpp
+        sources/model/ClassSession.cpp
 
         sources/exceptions/InvalidDataException.cpp
 
@@ -23,11 +24,13 @@ add_executable(Project
         sources/containers/InstructorContainer.cpp
         sources/containers/ModalityContainer.cpp
         sources/containers/RoomContainer.cpp
+        sources/containers/ClassSessionContainer.cpp
 
         sources/services/AthleteService.cpp
         sources/services/InstructorService.cpp
         sources/services/ModalityService.cpp
         sources/services/RoomService.cpp
+        sources/services/ClassSessionService.cpp
 
         sources/repo/GymRepositoryMemory.cpp
 
@@ -48,7 +51,7 @@ add_executable(Project
         sources/controllers/RoomController.cpp
         sources/controllers/InstructorController.cpp
         sources/controllers/ModalityController.cpp
-
+        sources/controllers/ClassSessionController.cpp
 
 
 

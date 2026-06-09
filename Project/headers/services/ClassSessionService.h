@@ -1,5 +1,5 @@
-#ifndef CLASSSESSIONCONTAINER_H
-#define CLASSSESSIONCONTAINER_H
+#ifndef CLASSSESSIONSERVICE_H
+#define CLASSSESSIONSERVICE_H
 
 #include <list>
 
@@ -7,11 +7,9 @@
 
 using namespace std;
 
-class ClassSessionContainer {
-private:
-    list<ClassSession*> sessions;
-
+class ClassSessionService {
 public:
+
     void add(const ClassSession& session);
 
     list<ClassSession*> getAll();

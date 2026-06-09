@@ -21,3 +21,7 @@ RoomContainer& Gym::getRoomContainer() {
     return roomContainer;
 }
 
+ClassSessionContainer& Gym::getClassSessionContainer() {
+
+    return classSessionContainer;
+}

@@ -1,8 +1,40 @@
-//
-// Created by gusta on 12/05/2026.
-//
-
 #ifndef CLASSSESSION_H
 #define CLASSSESSION_H
 
-#endif //CLASSSESSION_H
+#include <string>
+
+using namespace std;
+
+class ClassSession {
+private:
+    string modality;
+    string instructor;
+    string room;
+
+    string date;
+    string startTime;
+    string endTime;
+
+    int duration;
+
+public:
+    ClassSession(const string& modality,
+                 const string& instructor,
+                 const string& room,
+                 const string& date,
+                 const string& startTime,
+                 const string& endTime,
+                 int duration);
+
+    string getModality() const;
+    string getInstructor() const;
+    string getRoom() const;
+
+    string getDate() const;
+    string getStartTime() const;
+    string getEndTime() const;
+
+    int getDuration() const;
+};
+
+#endif

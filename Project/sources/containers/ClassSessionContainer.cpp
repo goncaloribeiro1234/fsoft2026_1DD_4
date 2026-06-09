@@ -1,3 +1,13 @@
-//
-// Created by gusta on 12/05/2026.
-//
+#include "../../headers/containers/ClassSessionContainer.h"
+
+void ClassSessionContainer::add(const ClassSession& session) {
+
+    sessions.push_back(
+            new ClassSession(session)
+    );
+}
+
+list<ClassSession*> ClassSessionContainer::getAll() {
+
+    return sessions;
+}

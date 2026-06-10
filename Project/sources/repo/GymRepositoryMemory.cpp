@@ -9,8 +9,6 @@ Gym* GymRepositoryMemory::getModel() {
     {
         model = new Gym("ISEP Gym", "Porto");
 
-        // ARTES MARCIAIS E COMBATE
-
         model->getModalityContainer().add(
                 Modality(
                         "Boxe",
@@ -52,8 +50,6 @@ Gym* GymRepositoryMemory::getModel() {
                         "Mixed Martial Arts"
                 )
         );
-
-        // FITNESS
 
         model->getModalityContainer().add(
                 Modality(

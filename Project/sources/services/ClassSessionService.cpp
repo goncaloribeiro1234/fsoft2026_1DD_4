@@ -1,10 +1,50 @@
 #include "../../headers/services/ClassSessionService.h"
 #include "../../headers/repo/GymRepositoryMemory.h"
+#include <ctime>
+#include <sstream>
+#include <stdexcept>
+
+bool isDateValidForScheduling(const string& dateStr) {
+    int day, month, year;
+    char delimiter;
+    stringstream ss(dateStr);
+
+    if (!(ss >> day >> delimiter >> month >> delimiter >> year) || delimiter != '/') {
+        throw invalid_argument("Formato de data invalido. Utilize DD/MM/AAAA.");
+    }
+
+    time_t t = time(0);
+    tm* now = localtime(&t);
+    tm today = {0};
+    today.tm_mday = now->tm_mday;
+    today.tm_mon = now->tm_mon;
+    today.tm_year = now->tm_year;
+    time_t today_timestamp = mktime(&today);
+
+    tm max_date = today;
+    max_date.tm_mday += 14;
+    time_t max_timestamp = mktime(&max_date);
+
+    tm input_date = {0};
+    input_date.tm_mday = day;
+    input_date.tm_mon = month - 1;
+    input_date.tm_year = year - 1900;
+    time_t input_timestamp = mktime(&input_date);
+
+    if (input_timestamp < today_timestamp) {
+        throw invalid_argument("Erro: Nao pode agendar uma aula numa data passada.");
+    }
+    if (input_timestamp > max_timestamp) {
+        throw invalid_argument("Erro: Apenas pode agendar aulas com o maximo de 2 semanas de antecedencia.");
+    }
+
+    return true;
+}
 
 void ClassSessionService::add(const ClassSession& session) {
+    isDateValidForScheduling(session.getDate());
 
     Gym* model = GymRepositoryMemory::getModel();
-
     model->getClassSessionContainer().add(session);
 }
 

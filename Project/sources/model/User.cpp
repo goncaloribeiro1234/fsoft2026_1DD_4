@@ -67,3 +67,7 @@ string User::getName() const {
 string User::getEmail() const {
     return email;
 }
+
+string User::getPassword() const {
+    return password;
+}

@@ -16,6 +16,8 @@ public:
     list<Instructor *> findAllInstructors();
 
     list<Instructor*> findAllAthletes();
+
+    Instructor* login(const string& email, const string& password);
 };
 
 #endif

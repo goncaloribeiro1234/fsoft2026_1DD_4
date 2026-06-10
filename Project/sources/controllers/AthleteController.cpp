@@ -8,3 +8,7 @@ void AthleteController::addAthlete(const string& name, const string& email, cons
 list<Athlete*> AthleteController::findAllAthletes() {
     return athleteService.getAll();
 }
+
+Athlete* AthleteController::login(const string& email, const string& password) {
+    return athleteService.authenticate(email, password);
+}

@@ -14,6 +14,8 @@ private:
 public:
     void addAthlete(const string& name, const string& email, const string& password, const string& level);
     list<Athlete*> findAllAthletes();
+
+    Athlete* login(const string& email, const string& password);
 };
 
 #endif

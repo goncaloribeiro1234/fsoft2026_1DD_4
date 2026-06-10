@@ -11,6 +11,8 @@ public:
     void add(const Instructor& instructor);
 
     list<Instructor*> getAll();
+
+    Instructor* authenticate(const string& email, const string& password);
 };
 
 #endif

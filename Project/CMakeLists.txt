@@ -49,6 +49,8 @@ add_executable(Project
 
         sources/views/AdminView.cpp
         sources/views/MainView.cpp
+        sources/views/AthleteView.cpp
+        sources/views/InstructorView.cpp
 
         sources/controllers/AthleteController.cpp
         sources/controllers/RoomController.cpp

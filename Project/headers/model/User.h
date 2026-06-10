@@ -28,6 +28,8 @@ public:
     string getName() const;
 
     string getEmail() const;
+
+    string getPassword() const;
 };
 
 #endif

@@ -30,3 +30,8 @@ ClassEnrollmentContainer& Gym::getClassEnrollmentContainer() {
 
     return classEnrollmentContainer;
 }
+
+PaymentContainer& Gym::getPaymentContainer() {
+
+    return paymentContainer;
+}

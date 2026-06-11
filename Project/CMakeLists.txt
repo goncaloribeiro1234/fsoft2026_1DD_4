@@ -18,6 +18,7 @@ add_executable(Project
         sources/model/Room.cpp
         sources/model/ClassSession.cpp
         sources/model/ClassEnrollment.cpp
+        sources/model/Payment.cpp
 
         sources/exceptions/InvalidDataException.cpp
 
@@ -27,6 +28,7 @@ add_executable(Project
         sources/containers/RoomContainer.cpp
         sources/containers/ClassSessionContainer.cpp
         sources/containers/ClassEnrollmentContainer.cpp
+        sources/containers/PaymentContainer.cpp
 
         sources/services/AthleteService.cpp
         sources/services/InstructorService.cpp
@@ -58,8 +60,10 @@ add_executable(Project
         sources/controllers/ModalityController.cpp
         sources/controllers/ClassSessionController.cpp
         sources/controllers/ClassEnrollmentController.cpp
-
-
+        headers/services/PaymentService.h
+        sources/services/PaymentService.cpp
+        headers/controllers/PaymentController.h
+        sources/controllers/PaymentController.cpp
 
 
 )

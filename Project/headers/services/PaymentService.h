@@ -1,5 +1,5 @@
-#ifndef PAYMENTCONTAINER_H
-#define PAYMENTCONTAINER_H
+#ifndef PAYMENTSERVICE_H
+#define PAYMENTSERVICE_H
 
 #include <list>
 
@@ -7,11 +7,7 @@
 
 using namespace std;
 
-class PaymentContainer {
-private:
-
-    list<Payment*> payments;
-
+class PaymentService {
 public:
 
     void add(const Payment& payment);

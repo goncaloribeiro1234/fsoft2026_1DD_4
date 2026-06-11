@@ -9,6 +9,7 @@
 #include "../containers/RoomContainer.h"
 #include "../containers/ClassSessionContainer.h"
 #include "../containers/ClassEnrollmentContainer.h"
+#include "../containers/PaymentContainer.h"
 
 using namespace std;
 
@@ -23,6 +24,7 @@ private:
     RoomContainer roomContainer;
     ClassSessionContainer classSessionContainer;
     ClassEnrollmentContainer classEnrollmentContainer;
+    PaymentContainer paymentContainer;
 
 public:
     Gym(const string& name, const string& location);
@@ -33,6 +35,7 @@ public:
     RoomContainer& getRoomContainer();
     ClassSessionContainer& getClassSessionContainer();
     ClassEnrollmentContainer& getClassEnrollmentContainer();
+    PaymentContainer& getPaymentContainer();
 
 };
 

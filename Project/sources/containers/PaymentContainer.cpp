@@ -1,3 +1,14 @@
-//
-// Created by gusta on 12/05/2026.
-//
+#include "../../headers/containers/PaymentContainer.h"
+
+void PaymentContainer::add(
+        const Payment& payment) {
+
+    payments.push_back(
+            new Payment(payment)
+    );
+}
+
+list<Payment*> PaymentContainer::getAll() {
+
+    return payments;
+}

@@ -16,6 +16,8 @@ void AdminView::showMenu() {
         cout << "5. Listar Todos os Instrutores" << endl;
         cout << "6. Listar Todas as Salas" << endl;
         cout << "7. Listar Modalidades" << endl;
+        cout << "8. Registar Pagamento" << endl;
+        cout << "9. Listar Pagamentos" << endl;
         cout << "0. Voltar" << endl;
 
         cout << "Opcao: ";
@@ -250,6 +252,57 @@ void AdminView::showMenu() {
                         << m->getDescription()
 
                         << endl;
+            }
+        }
+        else if (opt == 8) {
+
+            string athleteName;
+            double amount;
+            string date;
+            string status;
+
+            cout << "\n--- REGISTAR PAGAMENTO ---" << endl;
+
+            cout << "Nome do atleta: ";
+            cin >> ws;
+            getline(cin, athleteName);
+
+            cout << "Valor: ";
+            cin >> amount;
+
+            cout << "Data (DD/MM/AAAA): ";
+            cin >> date;
+
+            cout << "Estado (Pago/Pendente): ";
+            cin >> status;
+
+            try {
+                paymentController.registerPayment(
+                    athleteName,
+                    amount,
+                    date,
+                    status
+                );
+
+                cout << "SUCESSO: Pagamento registado!" << endl;
+            }
+            catch (exception& e) {
+                cout << "ERRO: " << e.what() << endl;
+            }
+        }
+        else if (opt == 9) {
+
+            auto payments = paymentController.findAllPayments();
+
+            cout << "\n--- LISTAGEM DE PAGAMENTOS ---" << endl;
+
+            for (auto p : payments) {
+
+                cout << "\nAtleta: " << p->getAthleteName()
+                     << "\nValor: " << p->getAmount()
+                     << "\nData: " << p->getDate()
+                     << "\nEstado: " << p->getStatus()
+                     << endl;
             }
         }
     }

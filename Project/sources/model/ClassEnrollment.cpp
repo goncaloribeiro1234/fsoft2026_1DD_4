@@ -17,17 +17,14 @@ ClassEnrollment::ClassEnrollment(
 }
 
 string ClassEnrollment::getAthleteName() const {
-
     return athleteName;
 }
 
 string ClassEnrollment::getModality() const {
-
     return modality;
 }
 
 string ClassEnrollment::getClassDate() const {
-
     return classDate;
 }
 
@@ -40,6 +37,5 @@ string ClassEnrollment::getEndTime() const {
 }
 
 string ClassEnrollment::getRoom() const {
-
     return room;
 }

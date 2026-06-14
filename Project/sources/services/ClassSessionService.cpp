@@ -49,9 +49,7 @@ void ClassSessionService::add(const ClassSession& session) {
 }
 
 list<ClassSession*> ClassSessionService::getAll() {
-
     Gym* model = GymRepositoryMemory::getModel();
-
     return model->getClassSessionContainer().getAll();
 }
 
@@ -62,25 +60,15 @@ bool ClassSessionService::hasRoomConflict(
         const string& endTime) {
 
     auto sessions = getAll();
-
     for(auto s : sessions) {
-
-        bool sameRoom =
-                s->getRoom() == room;
-
-        bool sameDate =
-                s->getDate() == date;
-
-        bool overlap =
-                !(endTime <= s->getStartTime() ||
-                  startTime >= s->getEndTime());
+        bool sameRoom = s->getRoom() == room;
+        bool sameDate = s->getDate() == date;
+        bool overlap = !(endTime <= s->getStartTime() || startTime >= s->getEndTime());
 
         if(sameRoom && sameDate && overlap) {
-
             return true;
         }
     }
-
     return false;
 }
 
@@ -91,24 +79,42 @@ bool ClassSessionService::hasInstructorConflict(
         const string& endTime) {
 
     auto sessions = getAll();
-
     for(auto s : sessions) {
-
-        bool sameInstructor =
-                s->getInstructor() == instructor;
-
-        bool sameDate =
-                s->getDate() == date;
-
-        bool overlap =
-                !(endTime <= s->getStartTime() ||
-                  startTime >= s->getEndTime());
+        bool sameInstructor = s->getInstructor() == instructor;
+        bool sameDate = s->getDate() == date;
+        bool overlap = !(endTime <= s->getStartTime() || startTime >= s->getEndTime());
 
         if(sameInstructor && sameDate && overlap) {
-
             return true;
         }
     }
-
     return false;
+}
+
+void ClassSessionService::cancelSession(const string& modality, const string& date, const string& startTime, const string& room) {
+    Gym* model = GymRepositoryMemory::getModel();
+    auto sessions = getAll();
+
+    ClassSession* toDelete = nullptr;
+    for (auto s : sessions) {
+        if (s->getModality() == modality && s->getDate() == date &&
+            s->getStartTime() == startTime && s->getRoom() == room) {
+            toDelete = s;
+            break;
+        }
+    }
+
+    if (!toDelete) throw invalid_argument("Aula nao encontrada para cancelamento.");
+
+    model->getClassSessionContainer().remove(toDelete);
+    delete toDelete;
+
+    auto enrollments = model->getClassEnrollmentContainer().getAll();
+    for (auto e : enrollments) {
+        if (e->getModality() == modality && e->getClassDate() == date &&
+            e->getStartTime() == startTime && e->getRoom() == room) {
+            model->getClassEnrollmentContainer().remove(e);
+            delete e;
+        }
+    }
 }

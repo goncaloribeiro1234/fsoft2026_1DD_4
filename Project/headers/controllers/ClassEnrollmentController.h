@@ -8,7 +8,6 @@ private:
     ClassEnrollmentService classEnrollmentService;
 
 public:
-
     void enrollAthlete(
             const string& athleteName,
             const string& modality,
@@ -19,6 +18,13 @@ public:
     );
 
     list<ClassEnrollment*> findAllEnrollments();
+
+    void cancelEnrollment(
+            const string& athleteName,
+            const string& modality,
+            const string& date,
+            const string& startTime
+    );
 };
 
 #endif

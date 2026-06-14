@@ -25,15 +25,10 @@ public:
     );
 
     string getAthleteName() const;
-
     string getModality() const;
-
     string getClassDate() const;
-
     string getStartTime() const;
-
     string getEndTime() const;
-
     string getRoom() const;
 };
 

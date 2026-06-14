@@ -8,7 +8,6 @@ private:
     ClassSessionService classSessionService;
 
 public:
-
     void createClassSession(
             const string& modality,
             const string& instructor,
@@ -19,6 +18,13 @@ public:
     );
 
     list<ClassSession*> findAllSessions();
+
+    void cancelClassSession(
+            const string& modality,
+            const string& date,
+            const string& startTime,
+            const string& room
+    );
 };
 
 #endif

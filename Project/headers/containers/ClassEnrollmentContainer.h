@@ -12,10 +12,13 @@ private:
     list<ClassEnrollment*> enrollments;
 
 public:
-
     void add(const ClassEnrollment& enrollment);
 
     list<ClassEnrollment*> getAll();
+
+    void remove(ClassEnrollment* enrollment) {
+        enrollments.remove(enrollment);
+    }
 };
 
 #endif

@@ -9,41 +9,26 @@ void ClassSessionController::createClassSession(
         const string& startTime,
         const string& endTime) {
 
-    if(classSessionService.hasRoomConflict(
-            room,
-            date,
-            startTime,
-            endTime)) {
+    if(classSessionService.hasRoomConflict(room, date, startTime, endTime)) {
+        throw InvalidDataException("Sala já ocupada neste momento.");
+    }
 
-        throw InvalidDataException(
-                "Room already occupied at this time."
-        );
-            }
+    if(classSessionService.hasInstructorConflict(instructor, date, startTime, endTime)) {
+        throw InvalidDataException("O instrutor já tem uma aula neste horário.");
+    }
 
-    if(classSessionService.hasInstructorConflict(
-            instructor,
-            date,
-            startTime,
-            endTime)) {
-
-        throw InvalidDataException(
-                "Instructor already has a class at this time."
-        );
-            }
-
-    ClassSession session(
-            modality,
-            instructor,
-            room,
-            date,
-            startTime,
-            endTime
-    );
-
+    ClassSession session(modality, instructor, room, date, startTime, endTime);
     classSessionService.add(session);
 }
 
 list<ClassSession*> ClassSessionController::findAllSessions() {
-
     return classSessionService.getAll();
+}
+
+void ClassSessionController::cancelClassSession(
+        const string& modality,
+        const string& date,
+        const string& startTime,
+        const string& room) {
+    classSessionService.cancelSession(modality, date, startTime, room);
 }

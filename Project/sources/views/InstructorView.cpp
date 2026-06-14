@@ -14,6 +14,7 @@ void InstructorView::showMenu(Instructor* loggedInInstructor) {
         cout << "1. Criar Aula" << endl;
         cout << "2. Listar Aulas" << endl;
         cout << "3. Listar Inscricoes (Ver alunos)" << endl;
+        cout << "4. Cancelar Aula" << endl;
         cout << "0. Voltar" << endl;
         cout << "Opcao: ";
         cin >> opt;
@@ -21,12 +22,10 @@ void InstructorView::showMenu(Instructor* loggedInInstructor) {
         if (opt == 1) {
             string modality = loggedInInstructor->getSpecialty();
             string instructor = loggedInInstructor->getName();
-
             string room, date, startTime, endTime;
 
             cout << "\n--- AGENDAR NOVA AULA DE " << modality << " ---" << endl;
-            cout << "Introduza a Data (DD/MM/AAAA): ";
-            cin >> date;
+            cout << "Introduza a Data (DD/MM/AAAA): "; cin >> date;
 
             auto salas = roomController.findAllRooms();
             if(salas.empty()) {
@@ -51,7 +50,6 @@ void InstructorView::showMenu(Instructor* loggedInInstructor) {
             room = roomNames[roomChoice - 1];
 
             auto sessions = classSessionController.findAllSessions();
-
             cout << "\n==============================================" << endl;
             cout << "SITUACAO DA SALA [" << room << "] NO DIA " << date << ":" << endl;
             bool roomHasClasses = false;
@@ -113,6 +111,42 @@ void InstructorView::showMenu(Instructor* loggedInInstructor) {
                      << "\nData: " << e->getClassDate()
                      << "\nHora Inicio: " << e->getStartTime()
                      << "\nHora Fim: " << e->getEndTime() << endl;
+            }
+        }
+        else if (opt == 4) {
+            auto sessions = classSessionController.findAllSessions();
+            if(sessions.empty()) {
+                cout << "Nao existem aulas agendadas." << endl;
+                continue;
+            }
+
+            cout << "\n--- CANCELAR AULA ---" << endl;
+            vector<ClassSession*> sessionList;
+            int index = 1;
+            for(auto s : sessions) {
+                if(s->getInstructor() == loggedInInstructor->getName()) {
+                    cout << index << ". " << s->getModality() << " - " << s->getDate() << " as " << s->getStartTime() << " (Sala: " << s->getRoom() << ")" << endl;
+                    sessionList.push_back(s);
+                    index++;
+                }
+            }
+
+            if(sessionList.empty()) {
+                cout << "Nao tem nenhuma aula agendada em seu nome." << endl;
+                continue;
+            }
+
+            cout << "Selecione a aula a cancelar (Numero): ";
+            int choice; cin >> choice;
+
+            if (choice > 0 && choice <= sessionList.size()) {
+                ClassSession* s = sessionList[choice - 1];
+                try {
+                    classSessionController.cancelClassSession(s->getModality(), s->getDate(), s->getStartTime(), s->getRoom());
+                    cout << "\nSUCESSO: Aula cancelada e atletas desvinculados!" << endl;
+                } catch(exception& e) {
+                    cout << "\nERRO: " << e.what() << endl;
+                }
             }
         }
     }

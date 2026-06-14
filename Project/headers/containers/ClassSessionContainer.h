@@ -15,6 +15,10 @@ public:
     void add(const ClassSession& session);
 
     list<ClassSession*> getAll();
+
+    void remove(ClassSession* session) {
+        sessions.remove(session);
+    }
 };
 
 #endif

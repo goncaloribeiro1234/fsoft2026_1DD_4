@@ -4,6 +4,7 @@
 #include "../controllers/AthleteController.h"
 #include "../controllers/ClassSessionController.h"
 #include "../controllers/ClassEnrollmentController.h"
+#include "../model/Athlete.h"
 
 class AthleteView {
 private:
@@ -12,7 +13,7 @@ private:
     ClassEnrollmentController classEnrollmentController;
 
 public:
-    void showMenu();
+    void showMenu(Athlete* loggedInAthlete);
 };
 
 #endif

@@ -52,7 +52,7 @@ void MainView::show() {
                     cout << "\nSUCESSO: Bem-vindo, Atleta " << loggedIn->getName() << "!" << endl;
 
                     AthleteView athleteView;
-                    athleteView.showMenu();
+                    athleteView.showMenu(loggedIn);
                 } catch (exception& e) {
                     cout << "ACESSO NEGADO: " << e.what() << endl;
                 }

@@ -19,6 +19,7 @@ void AthleteView::showMenu(Athlete* loggedInAthlete) {
         cout << "Sessao: " << loggedInAthlete->getName() << endl;
         cout << "1. Inscrever em Aula" << endl;
         cout << "2. Cancelar Inscricao em Aula" << endl;
+        cout << "3. Listar Todas as Aulas Disponiveis" << endl;
         cout << "0. Voltar" << endl;
         cout << "Opcao: ";
         cin >> opt;
@@ -107,6 +108,26 @@ void AthleteView::showMenu(Athlete* loggedInAthlete) {
                     cout << "ERRO: " << ex.what() << endl;
                 }
             }
+        }
+        else if (opt == 3) {
+            auto sessions = classSessionController.findAllSessions();
+            cout << "\n--- HORARIO GLOBAL DE AULAS ---" << endl;
+            if(sessions.empty()) {
+                cout << "Nao existem aulas agendadas no sistema." << endl;
+                continue;
+            }
+
+            for(auto s : sessions) {
+                int meuNivel = technicalLevelToInt(loggedInAthlete->getTechnicalLevel());
+                int nivelAula = technicalLevelToInt(s->getMinTechnicalLevel());
+                string statusAcesso = (meuNivel >= nivelAula) ? "[Elegivel]" : "[Bloqueado - Nivel Insuficiente]";
+
+                cout << "\n-> " << s->getModality() << " (Prof. " << s->getInstructor() << ")"
+                     << "\n   Data: " << s->getDate() << " | Horario: " << s->getStartTime() << " ate " << s->getEndTime()
+                     << "\n   Sala: " << s->getRoom() << " | Requisito: " << s->getMinTechnicalLevel()
+                     << "\n   Estado de Acesso: " << statusAcesso << endl;
+            }
+            cout << "=========================================" << endl;
         }
     }
 }

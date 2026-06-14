@@ -16,44 +16,33 @@ void AdminView::showMenu() {
         cout << "5. Listar Todos os Instrutores" << endl;
         cout << "6. Listar Todas as Salas" << endl;
         cout << "7. Listar Modalidades" << endl;
-        cout << "8. Registar Pagamento" << endl;
-        cout << "9. Listar Pagamentos" << endl;
         cout << "0. Voltar" << endl;
 
         cout << "Opcao: ";
         cin >> opt;
 
         if (opt == 1) {
+            string name, email, pass, technicalLevel;
 
-            string name;
-            string email;
-            string pass;
+            cout << "Nome: "; cin >> name;
+            cout << "Email: "; cin >> email;
+            cout << "Password: "; cin >> pass;
 
-            cout << "Nome: ";
-            cin >> name;
+            cout << "\nSelecione o Nivel Tecnico do Atleta:" << endl;
+            cout << "1. Iniciante\n2. Intermedio\n3. Avancado" << endl;
+            cout << "Opcao: ";
+            int techChoice; cin >> techChoice;
 
-            cout << "Email: ";
-            cin >> email;
-
-            cout << "Password: ";
-            cin >> pass;
+            if (techChoice == 2) technicalLevel = "Intermedio";
+            else if (techChoice == 3) technicalLevel = "Avancado";
+            else technicalLevel = "Iniciante";
 
             try {
-
-                athleteController.addAthlete(
-                        name,
-                        email,
-                        pass,
-                        "Sem Nivel"
-                );
-
-                cout << "SUCESSO: Atleta registado!" << endl;
+                athleteController.addAthlete(name, email, pass, technicalLevel);
+                cout << "SUCESSO: Atleta registado com o nivel " << technicalLevel << "!" << endl;
             }
             catch(exception &e) {
-
-                cout << "ERRO: "
-                     << e.what()
-                     << endl;
+                cout << "ERRO: " << e.what() << endl;
             }
         } else if (opt == 2) {
             string name;
@@ -252,57 +241,6 @@ void AdminView::showMenu() {
                         << m->getDescription()
 
                         << endl;
-            }
-        }
-        else if (opt == 8) {
-
-            string athleteName;
-            double amount;
-            string date;
-            string status;
-
-            cout << "\n--- REGISTAR PAGAMENTO ---" << endl;
-
-            cout << "Nome do atleta: ";
-            cin >> ws;
-            getline(cin, athleteName);
-
-            cout << "Valor: ";
-            cin >> amount;
-
-            cout << "Data (DD/MM/AAAA): ";
-            cin >> date;
-
-            cout << "Estado (Pago/Pendente): ";
-            cin >> status;
-
-            try {
-                paymentController.registerPayment(
-                    athleteName,
-                    amount,
-                    date,
-                    status
-                );
-
-                cout << "SUCESSO: Pagamento registado!" << endl;
-            }
-            catch (exception& e) {
-                cout << "ERRO: " << e.what() << endl;
-            }
-        }
-        else if (opt == 9) {
-
-            auto payments = paymentController.findAllPayments();
-
-            cout << "\n--- LISTAGEM DE PAGAMENTOS ---" << endl;
-
-            for (auto p : payments) {
-
-                cout << "\nAtleta: " << p->getAthleteName()
-                     << "\nValor: " << p->getAmount()
-                     << "\nData: " << p->getDate()
-                     << "\nEstado: " << p->getStatus()
-                     << endl;
             }
         }
     }

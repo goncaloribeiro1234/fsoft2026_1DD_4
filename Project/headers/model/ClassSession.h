@@ -15,13 +15,16 @@ private:
     string startTime;
     string endTime;
 
+    string minTechnicalLevel;
+
 public:
     ClassSession(const string& modality,
                  const string& instructor,
                  const string& room,
                  const string& date,
                  const string& startTime,
-                 const string& endTime);
+                 const string& endTime,
+                 const string& minTechnicalLevel);
 
     string getModality() const;
     string getInstructor() const;
@@ -32,6 +35,8 @@ public:
     string getEndTime() const;
 
     int getduration() const;
+
+    string getMinTechnicalLevel() const;
 };
 
 #endif

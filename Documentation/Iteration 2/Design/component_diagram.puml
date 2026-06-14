@@ -4,7 +4,7 @@ top to bottom direction
 
 title Component Diagram
 
-package "          " {
+package "components" {
 
     component [View] as V
     component [Controller] as C

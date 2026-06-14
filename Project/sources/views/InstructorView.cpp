@@ -22,7 +22,7 @@ void InstructorView::showMenu(Instructor* loggedInInstructor) {
         if (opt == 1) {
             string modality = loggedInInstructor->getSpecialty();
             string instructor = loggedInInstructor->getName();
-            string room, date, startTime, endTime;
+            string room, date, startTime, endTime, minTechnicalLevel;
 
             cout << "\n--- AGENDAR NOVA AULA DE " << modality << " ---" << endl;
             cout << "Introduza a Data (DD/MM/AAAA): "; cin >> date;
@@ -50,6 +50,7 @@ void InstructorView::showMenu(Instructor* loggedInInstructor) {
             room = roomNames[roomChoice - 1];
 
             auto sessions = classSessionController.findAllSessions();
+
             cout << "\n==============================================" << endl;
             cout << "SITUACAO DA SALA [" << room << "] NO DIA " << date << ":" << endl;
             bool roomHasClasses = false;
@@ -74,13 +75,21 @@ void InstructorView::showMenu(Instructor* loggedInInstructor) {
             if(!instHasClasses) cout << "   (O seu horario esta totalmente livre para este dia!)" << endl;
             cout << "==============================================" << endl;
 
-            cout << "\nIntroduza um horario livre:" << endl;
+            cout << "\nIntroduza o horario:" << endl;
             cout << "Hora Inicio (HH:MM): "; cin >> startTime;
             cout << "Hora Fim (HH:MM): "; cin >> endTime;
 
+            cout << "\nSelecione o Nivel Tecnico Minimo para esta aula:" << endl;
+            cout << "1. Iniciante\n2. Intermedio\n3. Avancado" << endl;
+            cout << "Opcao: ";
+            int lvlChoice; cin >> lvlChoice;
+            if (lvlChoice == 2) minTechnicalLevel = "Intermedio";
+            else if (lvlChoice == 3) minTechnicalLevel = "Avancado";
+            else minTechnicalLevel = "Iniciante";
+
             try {
-                classSessionController.createClassSession(modality, instructor, room, date, startTime, endTime);
-                cout << "\nSUCESSO: Aula agendada com toda a informacao consistente!" << endl;
+                classSessionController.createClassSession(modality, instructor, room, date, startTime, endTime, minTechnicalLevel);
+                cout << "\nSUCESSO: Aula agendada com o nivel minimo " << minTechnicalLevel << "!" << endl;
             } catch(exception& e) {
                 cout << "\nERRO: " << e.what() << endl;
             }
@@ -148,6 +157,44 @@ void InstructorView::showMenu(Instructor* loggedInInstructor) {
                     cout << "\nERRO: " << e.what() << endl;
                 }
             }
+        }
+
+        else if (opt == 5) {
+            auto atletas = athleteController.findAllAthletes();
+            if (atletas.empty()) {
+                cout << "Ainda nao ha atletas registados no sistema." << endl;
+                continue;
+            }
+
+            cout << "\n--- ALTERAR NIVEL TECNICO DE ATLETA ---" << endl;
+            vector<Athlete*> athleteList;
+            int idx = 1;
+            for (auto a : atletas) {
+                cout << idx << ". " << a->getName() << " (Nivel Atual: " << a->getTechnicalLevel() << ")" << endl;
+                athleteList.push_back(a);
+                idx++;
+            }
+
+            cout << "Selecione o Atleta (Numero): ";
+            int atlChoice; cin >> atlChoice;
+            if (atlChoice < 1 || atlChoice > athleteList.size()) {
+                cout << "Opcao invalida." << endl;
+                continue;
+            }
+            Athlete* targetAthlete = athleteList[atlChoice - 1];
+
+            cout << "\nSelecione o Novo Nivel Tecnico:" << endl;
+            cout << "1. Iniciante\n2. Intermedio\n3. Avancado" << endl;
+            cout << "Opcao: ";
+            int newLvl; cin >> newLvl;
+
+            string newLvlStr;
+            if (newLvl == 2) newLvlStr = "Intermedio";
+            else if (newLvl == 3) newLvlStr = "Avancado";
+            else newLvlStr = "Iniciante";
+
+            targetAthlete->setTechnicalLevel(newLvlStr);
+            cout << "SUCESSO: O nivel do atleta " << targetAthlete->getName() << " foi atualizado para " << newLvlStr << "!" << endl;
         }
     }
 }

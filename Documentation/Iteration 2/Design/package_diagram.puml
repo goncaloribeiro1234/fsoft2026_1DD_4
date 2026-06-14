@@ -3,7 +3,7 @@ skinparam style strictuml
 
 title Package Diagram
 
-package "          " {
+package "package" {
     package "views"
     package "controllers"
     package "services"

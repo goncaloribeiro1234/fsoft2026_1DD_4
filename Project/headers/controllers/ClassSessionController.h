@@ -14,7 +14,8 @@ public:
             const string& room,
             const string& date,
             const string& startTime,
-            const string& endTime
+            const string& endTime,
+            const string& minTechnicalLevel
     );
 
     list<ClassSession*> findAllSessions();

@@ -14,3 +14,7 @@ Athlete::Athlete(const string& name,
 string Athlete::getTechnicalLevel() const {
     return technicalLevel;
 }
+
+void Athlete::setTechnicalLevel(const string& level) {
+    this->technicalLevel = level;
+}

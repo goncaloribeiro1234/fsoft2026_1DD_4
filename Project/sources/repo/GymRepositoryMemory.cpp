@@ -196,6 +196,16 @@ Gym* GymRepositoryMemory::getModel() {
             )
         );
 
+        model->getAthleteContainer().add(
+            Athlete(
+                "Afonso Maria",
+                "AFO001",
+                "afonso@gym.pt",
+                "123",
+                "Iniciante"
+            )
+        );
+
         model->getRoomContainer().addRoom(
             new Room("Sala A", 5)
         );

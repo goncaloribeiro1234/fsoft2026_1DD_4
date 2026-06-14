@@ -7,7 +7,8 @@ void ClassSessionController::createClassSession(
         const string& room,
         const string& date,
         const string& startTime,
-        const string& endTime) {
+        const string& endTime,
+        const string& minTechnicalLevel) {
 
     if(classSessionService.hasRoomConflict(room, date, startTime, endTime)) {
         throw InvalidDataException("Sala já ocupada neste momento.");
@@ -17,7 +18,7 @@ void ClassSessionController::createClassSession(
         throw InvalidDataException("O instrutor já tem uma aula neste horário.");
     }
 
-    ClassSession session(modality, instructor, room, date, startTime, endTime);
+    ClassSession session(modality, instructor, room, date, startTime, endTime, minTechnicalLevel);
     classSessionService.add(session);
 }
 

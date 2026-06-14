@@ -7,6 +7,8 @@
 #include "../controllers/ClassSessionController.h"
 #include "../controllers/ClassEnrollmentController.h"
 #include "../model/Instructor.h"
+#include "../controllers/AthleteController.h"
+
 
 class InstructorView {
 private:
@@ -15,6 +17,7 @@ private:
     RoomController roomController;
     ClassSessionController classSessionController;
     ClassEnrollmentController classEnrollmentController;
+    AthleteController athleteController;
 
 public:
     void showMenu(Instructor* loggedInInstructor);

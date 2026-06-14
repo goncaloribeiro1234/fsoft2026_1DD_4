@@ -7,7 +7,6 @@
 #include "../controllers/ModalityController.h"
 #include "../controllers/ClassSessionController.h"
 #include "../controllers/ClassEnrollmentController.h"
-#include "../controllers/PaymentController.h"
 
 class AdminView {
 private:
@@ -17,7 +16,6 @@ private:
     RoomController roomController;
     ClassSessionController classSessionController;
     ClassEnrollmentController classEnrollmentController;
-    PaymentController paymentController;
 
 public:
     void showMenu();

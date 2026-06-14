@@ -5,7 +5,8 @@ ClassSession::ClassSession(const string& modality,
                            const string& room,
                            const string& date,
                            const string& startTime,
-                           const string& endTime) {
+                           const string& endTime,
+                           const string& minTechnicalLevel) {
 
     this->modality = modality;
     this->instructor = instructor;
@@ -14,6 +15,8 @@ ClassSession::ClassSession(const string& modality,
     this->date = date;
     this->startTime = startTime;
     this->endTime = endTime;
+
+    this->minTechnicalLevel = minTechnicalLevel;
 }
 
 string ClassSession::getModality() const {
@@ -52,4 +55,8 @@ int ClassSession::getduration() const {
     int endTotal = endHour * 60 + endMinute;
 
     return endTotal - startTotal;
+}
+
+string ClassSession::getMinTechnicalLevel() const {
+    return minTechnicalLevel;
 }

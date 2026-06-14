@@ -4,6 +4,13 @@
 
 using namespace std;
 
+int technicalLevelToInt(const string& lvl) {
+    if (lvl == "Iniciante") return 1;
+    if (lvl == "Intermedio") return 2;
+    if (lvl == "Avancado") return 3;
+    return 0;
+}
+
 void AthleteView::showMenu(Athlete* loggedInAthlete) {
     int opt = -1;
 
@@ -31,7 +38,8 @@ void AthleteView::showMenu(Athlete* loggedInAthlete) {
             cout << "\nSelecione a Aula:" << endl;
             for(auto s : sessions) {
                 cout << index << ". " << s->getModality() << " - "
-                     << s->getDate() << " " << s->getStartTime() << " - " << s->getEndTime() << endl;
+                     << s->getDate() << " " << s->getStartTime() << " - " << s->getEndTime()
+                     << " (Nivel Minimo: " << s->getMinTechnicalLevel() << ")" << endl;
                 sessionList.push_back(s);
                 index++;
             }
@@ -44,6 +52,16 @@ void AthleteView::showMenu(Athlete* loggedInAthlete) {
                 continue;
             }
             ClassSession* selectedSession = sessionList[sessionChoice - 1];
+
+            int nivelDoAtleta = technicalLevelToInt(loggedInAthlete->getTechnicalLevel());
+            int nivelMinimoAula = technicalLevelToInt(selectedSession->getMinTechnicalLevel());
+
+            if (nivelDoAtleta < nivelMinimoAula) {
+                cout << "\nERRO DE REQUISITO: O atleta nao possui o nivel tecnico minimo exigido para esta aula!" << endl;
+                cout << "Nivel da aula: " << selectedSession->getMinTechnicalLevel()
+                     << " | O seu nivel atual: " << loggedInAthlete->getTechnicalLevel() << endl;
+                continue;
+            }
 
             try {
                 classEnrollmentController.enrollAthlete(

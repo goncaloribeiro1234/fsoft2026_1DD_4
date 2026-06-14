@@ -10,7 +10,7 @@ void MainView::show() {
     int role = -1;
 
     while (role != 0) {
-        cout << "\n-- GROSSOS E FIBRADOS: ARTES MARCIAIS --" << endl;
+        cout << "\n-- ISEP GYM --" << endl;
         cout << "1. Administrador" << endl;
         cout << "2. Instrutor" << endl;
         cout << "3. Atleta" << endl;

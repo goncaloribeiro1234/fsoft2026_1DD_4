@@ -15,6 +15,7 @@ public:
             const string& technicalLevel);
 
     string getTechnicalLevel() const;
+    void setTechnicalLevel(const string& level);
 };
 
 #endif

@@ -146,16 +146,35 @@ void InstructorView::showMenu(Instructor* loggedInInstructor) {
             }
 
             cout << "Selecione a aula a cancelar (Numero): ";
-            int choice; cin >> choice;
 
-            if (choice > 0 && choice <= sessionList.size()) {
-                ClassSession* s = sessionList[choice - 1];
-                try {
-                    classSessionController.cancelClassSession(s->getModality(), s->getDate(), s->getStartTime(), s->getRoom());
-                    cout << "\nSUCESSO: Aula cancelada e atletas desvinculados!" << endl;
-                } catch(exception& e) {
-                    cout << "\nERRO: " << e.what() << endl;
-                }
+            int choice;
+            cin >> choice;
+
+            if(choice < 1 || choice > sessionList.size()) {
+
+                cout << "\nERRO: Opcao invalida." << endl;
+
+                continue;
+            }
+
+            ClassSession* s = sessionList[choice - 1];
+
+            try {
+
+                classSessionController.cancelClassSession(
+                        s->getModality(),
+                        s->getDate(),
+                        s->getStartTime(),
+                        s->getRoom()
+                );
+
+                cout << "\nSUCESSO: Aula cancelada e atletas desvinculados!" << endl;
+            }
+            catch(exception& e) {
+
+                cout << "\nERRO: "
+                     << e.what()
+                     << endl;
             }
         }
 

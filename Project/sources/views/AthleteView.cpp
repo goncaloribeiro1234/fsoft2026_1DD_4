@@ -98,15 +98,35 @@ void AthleteView::showMenu(Athlete* loggedInAthlete) {
             }
 
             cout << "Selecione o numero da inscricao a anular: ";
-            int choice; cin >> choice;
-            if(choice > 0 && choice <= myEnrollments.size()) {
-                auto e = myEnrollments[choice - 1];
-                try {
-                    classEnrollmentController.cancelEnrollment(loggedInAthlete->getName(), e->getModality(), e->getClassDate(), e->getStartTime());
-                    cout << "SUCESSO: Lugar libertado na aula com sucesso!" << endl;
-                } catch(exception& ex) {
-                    cout << "ERRO: " << ex.what() << endl;
-                }
+
+            int choice;
+            cin >> choice;
+
+            if(choice < 1 || choice > myEnrollments.size()) {
+
+                cout << "\nERRO: Opcao invalida." << endl;
+
+                continue;
+            }
+
+            auto e = myEnrollments[choice - 1];
+
+            try {
+
+                classEnrollmentController.cancelEnrollment(
+                        loggedInAthlete->getName(),
+                        e->getModality(),
+                        e->getClassDate(),
+                        e->getStartTime()
+                );
+
+                cout << "SUCESSO: Lugar libertado na aula com sucesso!" << endl;
+            }
+            catch(exception& ex) {
+
+                cout << "ERRO: "
+                     << ex.what()
+                     << endl;
             }
         }
         else if (opt == 3) {
